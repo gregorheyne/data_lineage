@@ -21,12 +21,12 @@ from data_lineage.lineage_network.network_populate import add_pbip_sources_to_ne
 from data_lineage.lineage_network.network_base import remove_nodes_from_network
 from data_lineage.lineage_network.network_base import nodes, edges
 from data_lineage.lineage_network.network_base import nodes_id_meta_map, edges_id_meta_map, nodes_name_id_map
-from data_lineage.lineage_network.newtork_plot import add_graphviz_meta_to_io_network
-from data_lineage.lineage_network.newtork_plot import get_implied_layer_order
-from data_lineage.lineage_network.newtork_plot import set_node_colors
-from data_lineage.lineage_network.newtork_plot import draw_lineage_plot
-from data_lineage.lineage_network.newtork_plot import clean_graphviz_svg
-from data_lineage.lineage_network.newtork_plot import wrap_svg_in_html
+from data_lineage.lineage_network.network_plot import add_graphviz_meta_to_io_network
+from data_lineage.lineage_network.network_plot import get_implied_layer_order
+from data_lineage.lineage_network.network_plot import set_node_colors
+from data_lineage.lineage_network.network_plot import draw_lineage_plot
+from data_lineage.lineage_network.network_plot import clean_graphviz_svg
+from data_lineage.lineage_network.network_plot import wrap_svg_in_html
 
 
 df_io_logs = pd.read_csv('io_logs.csv', sep=';')

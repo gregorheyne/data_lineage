@@ -1,4 +1,4 @@
-from data_lineage.lineage_network.newtork_plot import draw_lineage_plot
+from data_lineage.lineage_network.network_plot import draw_lineage_plot
 
 nodes = [
     {
