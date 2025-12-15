@@ -14,6 +14,7 @@ io_hooks_py.write_io_logs_to_csv()
 # in io logs and converting them to a
 # network and printing them to svg
 import pandas as pd
+from data_lineage.lineage_parsers.pbip_tmdl_parser import get_pbip_sources
 from data_lineage.lineage_network.network_populate import process_io_logs_df
 from data_lineage.lineage_network.network_populate import add_io_logs_to_network
 from data_lineage.lineage_network.network_populate import add_pbip_sources_to_network
@@ -34,7 +35,6 @@ df_io_logs = process_io_logs_df(df_io_logs, str_required_in_caller_one_file=str_
 add_io_logs_to_network(df_io_logs)
 
 
-from data_lineage.lineage_parsers.pbip_tmdl_parser import get_pbip_sources
 paths_to_pbips = [
     Path(os.getcwd()) / 'tests/pbip/pseudo_pbip.pbip'
 ]
@@ -47,7 +47,7 @@ for i, pbip_source in enumerate(pbip_sources):
 add_pbip_sources_to_network(paths_to_pbips[0], pbip_sources)
 
 
-# final touches
+# prepare for plotting
 remove_nodes_from_network(['SamPle_data.CSV'])
 add_graphviz_meta_to_io_network()
 layer_order = get_implied_layer_order()
