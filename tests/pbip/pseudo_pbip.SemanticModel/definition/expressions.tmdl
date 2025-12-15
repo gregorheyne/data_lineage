@@ -33,7 +33,7 @@ expression [PBITOOLS_VERSION] = "PBITOOLS_VERSION" meta [IsParameterQuery=true, 
 
 expression "consumer file" = 
 		let
-			Source = Excel.Workbook(File.Contents("pbi-tools/contoso-sales-model/main/data/consumer.xlsx"), null, true),
+			Source = Excel.Workbook(File.Contents("pbi-tools/contoso-sales-model/main/data/consumer_in_expressions.xlsx"), null, true),
 			# "consumer sheet" = Source{[Item="sheet_name", Kind="Sheet"]}[Data],
 			#"Promoted Headers" = Table.PromoteHeaders("consumer sheet", [PromoteAllScalars=true]),
 			#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ConsumerKey", Int64.Type}, {"Consumer Code", type text}, {"Consumer Name", type text}, {"Manufacturer", type text}, {"Brand", type text}, {"Subcategory", type text}, {"Category", type text}, {"Color", type text}})

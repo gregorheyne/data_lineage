@@ -187,7 +187,6 @@ def _get_source_text_details(source_text: str) -> Dict[str, Any]:
         'schema_items': schema_items,
     }
 
-
 def get_source_from_table_tmdl(fp_table_tmdl) -> List[Dict[str, Any]]:
     """
     Top-level helper that finds the source block in a pbi table tmdl 
@@ -250,7 +249,6 @@ def get_expressions(fp_expressions_tmdl):
     
     return expressions
 
-
 def get_pbip_sources(path_to_pbip_file):
     """
     Extracts Sources from Tables
@@ -285,20 +283,27 @@ def get_pbip_sources(path_to_pbip_file):
             if 'file_paths' in tmdl_table_source['details']:
                 for file_path in tmdl_table_source['details']['file_paths']:
                     # file_path = tmdl_table_source['details']['file_paths'][0]
-                    pbi_sources.append(
-                        {
-                            'type': 'file',
-                            'name': file_path
-                        }
-                    )
+                    pbi_source = {'type': 'file', 'name': file_path}
+                    if pbi_source not in pbi_sources:
+                        pbi_sources.append(pbi_source)
             if 'schema_items' in tmdl_table_source['details']:
                 for schema_pair in tmdl_table_source['details']['schema_items']:
                     # schema_pair = tmdl_table_source['details']['schema_items'][0]
-                    pbi_sources.append(
-                        {
-                            'type': 'db_object',
-                            'name': schema_pair['schema'] + '.' + schema_pair['item']
-                        }
-                    )
+                    pbi_source = {'type': 'db_object', 'name': schema_pair['schema'] + '.' + schema_pair['item']}
+                    if pbi_source not in pbi_sources:
+                        pbi_sources.append(pbi_source)
+    for expression in expressions:
+        # expression = expressions[-2]
+        if 'file_paths' in expression.keys():
+            for filepath in expression['file_paths']:
+                pbi_source = {'type': 'file', 'name': filepath}
+                if pbi_source not in pbi_sources:
+                    pbi_sources.append(pbi_source)
+        if 'schema_items' in expression.keys():
+            for schema_pair in expression['schema_items']:
+                # schema_pair = tmdl_table_source['details']['schema_items'][0]
+                pbi_source = {'type': 'db_object', 'name': schema_pair['schema'] + '.' + schema_pair['item']}
+                if pbi_source not in pbi_sources:
+                    pbi_sources.append(pbi_source)
 
     return pbi_sources

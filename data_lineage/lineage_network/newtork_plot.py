@@ -16,9 +16,16 @@ def add_graphviz_meta_to_io_network():
     for node in nodes:
 
         node['tooltip'] = node['name']
-        if 'io_context' in node:
-            node['layer'] = (node['io_context'].split('io_ctx_id')[0]).lower()[:-1] + ' (' + node['module'] + ')'
 
+        # set layer
+        assert node['origin'] in ['io_logs_py', 'pbi_sources'], 'node with invalid node origin'
+        if node['origin'] == 'io_logs_py':
+            if 'io_context' in node:
+                node['layer'] = (node['io_context'].split('io_ctx_id')[0]).lower()[:-1] + ' (' + node['module'] + ')'
+        elif node['origin'] == 'pbi_sources':
+            node['layer'] = f"PBI Sources ({node['pbi_name']})"
+
+        # set display name, shape and style
         if node['type'] == 'file':
             node['display_name'] = os.path.basename(node['name'])
             node['shape'] = 'folder'
@@ -31,6 +38,10 @@ def add_graphviz_meta_to_io_network():
             node['display_name'] = node['name']
             node['shape'] = 'box'
             node['style'] = 'rounded,filled'
+        elif node['type'] == 'pbi':
+            node['display_name'] = node['name']
+            node['shape'] = 'doubleoctagon'
+            node['style'] = 'filled'
         else:
             node['display_name'] = node['name']
 
@@ -91,8 +102,6 @@ def set_node_colors():
         node['color'] = layer_color_dict[node_layer]
 
     return None
-
-
 
 def draw_lineage_plot(
         nodes,

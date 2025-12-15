@@ -16,6 +16,7 @@ io_hooks_py.write_io_logs_to_csv()
 import pandas as pd
 from data_lineage.lineage_network.network_populate import process_io_logs_df
 from data_lineage.lineage_network.network_populate import add_io_logs_to_network
+from data_lineage.lineage_network.network_populate import add_pbip_sources_to_network
 from data_lineage.lineage_network.network_base import remove_nodes_from_network
 from data_lineage.lineage_network.network_base import nodes, edges
 from data_lineage.lineage_network.network_base import nodes_id_meta_map, edges_id_meta_map, nodes_name_id_map
@@ -39,9 +40,11 @@ paths_to_pbips = [
 ]
 # path_to_pbip_file = paths_to_pbips[0]
 pbip_sources = get_pbip_sources(paths_to_pbips[0])
-
-
-
+# some hack for testing
+for i, pbip_source in enumerate(pbip_sources):
+    if pbip_source == {'type': 'db_object', 'name': 'sqllite_schema.Random_data_secondary'}:
+        pbip_sources[i] = {'type': 'db_object', 'name': 'Random_data_secondary'}
+add_pbip_sources_to_network(paths_to_pbips[0], pbip_sources)
 
 
 # final touches
@@ -57,6 +60,8 @@ lineage_html = wrap_svg_in_html(cleaned_svg)
 # print(lineage_html)
 with open('lineage_plot.html', 'w', encoding='utf-8') as f:
     f.write(lineage_html)
+
+# TODO:
 
 
 # # copy to clipboard

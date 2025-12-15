@@ -13,7 +13,9 @@ def process_io_logs_df(
     groupby_cols = ['module', 'user', 'cwd']
     df_io_logs['module_GROUP'] = df_io_logs.groupby(groupby_cols).transform('ngroup') + 1
     # set a python node based on module and io_context
-    df_io_logs['PYTHON_NODE'] = df_io_logs['module'] + ' (' + df_io_logs['io_context'] + ')'
+    df_io_logs['PYTHON_NODE_NAME'] = df_io_logs['module'] + ' (' + df_io_logs['io_context'] + ')'
+    # set an origin column that can be used later for defining layers in plotting
+    df_io_logs['origin'] = 'io_logs_py'
 
     if str_required_in_caller_one_file:
         # str_required_in_caller_one_file = 'Documents/coding/transfer/data_architecture'
@@ -39,20 +41,20 @@ def add_io_logs_to_network(df_io_logs):
     #  - for db io actions, resolve lineage from query 
     # - and populate nodes dict including type info
     io_records = df_io_logs.to_dict(orient='records')
-    meta_attributes_for_nodes = ['io_context', 'module']
+    meta_attributes_for_nodes = ['io_context', 'module', 'origin']
     treated_io_types = set()
     for record in io_records:
         # record = io_records[0]
         if record['action'] in file_read_actions:
             src = record['source']
-            tgt = record['PYTHON_NODE']
+            tgt = record['PYTHON_NODE_NAME']
             record_meta_dict = {key: record[key] for key in record.keys() if key in meta_attributes_for_nodes}
             register_node(src, 'file', meta_dict=record_meta_dict)
             register_node(tgt, 'py_node', meta_dict=record_meta_dict)
             register_edge(src, tgt, 'to_py_node')
             treated_io_types = treated_io_types.union(file_read_actions)
         if record['action'] in file_write_actions:
-            src = record['PYTHON_NODE']
+            src = record['PYTHON_NODE_NAME']
             tgt = record['target']
             record_meta_dict = {key: record[key] for key in record.keys() if key in meta_attributes_for_nodes}
             register_node(src, 'py_node', meta_dict=record_meta_dict)
@@ -67,7 +69,7 @@ def add_io_logs_to_network(df_io_logs):
             tgts = query_lineage['targets']
             assert not tgts, f'found targets in {query} for {record["action"]}'
             # fill nodes and edges
-            tgt = record['PYTHON_NODE']
+            tgt = record['PYTHON_NODE_NAME']
             register_node(tgt, 'py_node', meta_dict=record_meta_dict)
             for src in srcs:
                 register_node(src, 'db_object', meta_dict=record_meta_dict)
@@ -92,7 +94,7 @@ def add_io_logs_to_network(df_io_logs):
                 # check that targets in query lineage is empty
                 assert not targets, 'found targets in data retrieval query'
                 # add nodes and edges
-                tgt = record['PYTHON_NODE']
+                tgt = record['PYTHON_NODE_NAME']
                 register_node(tgt, 'py_node', meta_dict=record_meta_dict)
                 for src in sources:
                     register_node(src, 'db_object', meta_dict=record_meta_dict)
@@ -101,7 +103,7 @@ def add_io_logs_to_network(df_io_logs):
                 # check that sources in query lineage is empty
                 assert not sources, 'found sources in data upload query'
                 # add nodes and edges
-                src = record['PYTHON_NODE']
+                src = record['PYTHON_NODE_NAME']
                 register_node(src, 'py_node', meta_dict=record_meta_dict)
                 for tgt in targets:
                     register_node(tgt, 'db_object', meta_dict=record_meta_dict)
@@ -124,19 +126,17 @@ def add_io_logs_to_network(df_io_logs):
     return None
 
 
-def add_pbip_sources_to_network(pbi_name, pbip_sources):
+def add_pbip_sources_to_network(path_to_pbip_file, pbip_sources):
+
+    pbi_name = os.path.basename(path_to_pbip_file)
 
     for pbip_source in pbip_sources:
         # pbip_source = pbip_sources[0]
-        pbip_source
-
-        # src = pbip_source['name']
-        # tgt = record['PYTHON_NODE']
-        # record_meta_dict = {key: record[key] for key in record.keys() if key in meta_attributes_for_nodes}
-        # register_node(src, 'file', meta_dict=record_meta_dict)
-        # register_node(tgt, 'py_node', meta_dict=record_meta_dict)
-        # register_edge(src, tgt, 'to_py_node')
-        # treated_io_types = treated_io_types.union(file_read_actions)
+        src = pbip_source['name']
+        tgt = pbi_name
+        register_node(src, pbip_source['type'], meta_dict={'origin': 'pbi_sources', 'pbi_name': pbi_name})
+        register_node(tgt, 'pbi', meta_dict={'origin': 'pbi_sources', 'pbi_name': pbi_name})
+        register_edge(src, tgt, 'to_pbi_node')
 
     return None
 
