@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from data_lineage.runtime_hooks.io_hooks_py import start_io_context
-from tests.io_tests_utils import dir_tmp_data
+from tests.io_tests_utils import dir_io_tests_data
 from tests.io_tests_utils import save_data, load_data
 from tests.io_tests_utils import pd_to_sqlite_db, read_sql_sqlite, pyodbc_execute_sql_sqlite
 
@@ -20,8 +20,8 @@ def run_primary_tests():
     print("Creating random dataframe...\n")
     df = create_random_dataframe()
 
-    csv_path = dir_tmp_data / "sample_data.csv"
-    pkl_path = dir_tmp_data / "sample_data.pkl"
+    csv_path = dir_io_tests_data / "sample_data.csv"
+    pkl_path = dir_io_tests_data / "sample_data.pkl"
 
     print("Saving data as csv and pickle\n")
     save_data(df, csv_path=csv_path, pkl_path=pkl_path)

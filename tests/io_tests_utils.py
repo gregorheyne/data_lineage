@@ -1,11 +1,13 @@
 import os
+import pyodbc
 import pandas as pd
 from pathlib import Path
-from tests.io_tests_db_connection import get_pyodbc_sqlite_connection
 
-dir_tmp_data = Path(os.getcwd()) / "tmp_data_io"
-dir_tmp_data.mkdir(parents=True, exist_ok=True)
-print(f"Base directory for data I/O: {dir_tmp_data}")
+dir_io_tests_data = Path(os.getcwd()) / "tests/io_tests_data"
+dir_io_tests_data.mkdir(parents=True, exist_ok=True)
+print(f"Base directory for data I/O: {dir_io_tests_data}")
+DB_file = dir_io_tests_data / "test_database.sqlite"
+
 
 def save_data(df, csv_path=None, pkl_path=None):
 
@@ -23,6 +25,15 @@ def load_data(csv_path, pkl_path):
 
     print("\nData loaded.")
     return df_csv, df_pkl
+
+def get_pyodbc_sqlite_connection():
+    connection_string = (
+        f"DRIVER={{SQLite3}};"
+        f"Database={os.path.abspath(DB_file)};"
+    )
+    pyodbc_conn = pyodbc.connect(connection_string)
+    return pyodbc_conn
+
 
 
 def pd_to_sqlite_db(df, table_name):

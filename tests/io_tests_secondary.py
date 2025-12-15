@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from data_lineage.runtime_hooks.io_hooks_py import start_io_context
-from tests.io_tests_utils import dir_tmp_data
+from tests.io_tests_utils import dir_io_tests_data
 from tests.io_tests_utils import load_data
 from tests.io_tests_utils import read_sql_sqlite, pyodbc_execute_sql_sqlite
 from tests.io_tests_utils import pyodbc_execute_many_sql_sqlite
@@ -18,8 +18,8 @@ def run_secondary_tests():
 
     start_io_context("secondary_tests")
 
-    csv_path = dir_tmp_data / "sample_data.csv"
-    pkl_path = dir_tmp_data / "sample_data.pkl"
+    csv_path = dir_io_tests_data / "sample_data.csv"
+    pkl_path = dir_io_tests_data / "sample_data.pkl"
 
     print("Loading data from csv and pickle\n")
     df_csv, df_pkl = load_data(csv_path, pkl_path)
