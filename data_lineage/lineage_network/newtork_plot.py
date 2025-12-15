@@ -1,7 +1,98 @@
+import os
 import re
 from graphviz import Digraph
 from collections import defaultdict
 from pathlib import Path
+from data_lineage.lineage_network.network_base import nodes, edges
+from data_lineage.lineage_network.network_base import nodes_id_meta_map
+
+
+
+def add_graphviz_meta_to_io_network():
+
+    # add color, shape, style for nodes
+    # add style for edges
+
+    for node in nodes:
+
+        node['tooltip'] = node['name']
+        if 'io_context' in node:
+            node['layer'] = (node['io_context'].split('io_ctx_id')[0]).lower()[:-1] + ' (' + node['module'] + ')'
+
+        if node['type'] == 'file':
+            node['display_name'] = os.path.basename(node['name'])
+            node['shape'] = 'folder'
+            node['style'] = 'rounded,filled,dashed'
+        elif node['type'] == 'py_node':
+            node['display_name'] = 'py'
+            node['shape'] = 'diamond'
+            node['style'] = 'filled'
+        elif node['type'] == 'db_object':
+            node['display_name'] = node['name']
+            node['shape'] = 'box'
+            node['style'] = 'rounded,filled'
+        else:
+            node['display_name'] = node['name']
+
+    for edge in edges:
+        src_id = edge['src_id']
+        tgt_id = edge['tgt_id']
+        # check if we have a file as source or target
+        src_type = nodes_id_meta_map[src_id]['type']
+        tgt_type = nodes_id_meta_map[tgt_id]['type']
+        if ((src_type == 'file') or (tgt_type == 'file')):
+            edge['style'] = 'dashed'
+
+    return None
+
+def get_implied_layer_order():
+    layers = set()
+    layer_order = []
+    for node in nodes:
+        if node['layer'] not in layers:
+            layers.add(node['layer'])
+            layer_order.append(node['layer'])
+    return layer_order
+
+def set_node_colors():
+
+    colors_repo = [
+        "lightblue",
+        "lightyellow",
+        "lightgreen",
+        "orange",
+        "plum",
+        "lightcoral",
+        "lightseagreen",
+        "lightsalmon",
+        "lightgoldenrod",
+        "khaki",
+        "orchid",
+        "palegreen",
+        "paleturquoise",
+        "palevioletred",
+        "peachpuff",
+        "skyblue",
+        "thistle",
+        "turquoise",
+        "wheat",
+        "yellowgreen",
+        "tomato",
+        "mediumaquamarine"
+    ]
+
+    layer_color_dict = dict()
+    color_id = 0
+    for node in nodes:
+        node_layer = node['layer']
+        if node_layer not in layer_color_dict.keys():
+            layer_color_dict[node_layer] = colors_repo[color_id]
+            color_id += 1
+        node['color'] = layer_color_dict[node_layer]
+
+    return None
+
+
 
 def draw_lineage_plot(
         nodes,
@@ -147,7 +238,6 @@ def draw_lineage_plot(
     svg_path = dot.render(cleanup=True)
 
     return dot.pipe(format='svg')
-
 
 def clean_graphviz_svg(svg_bytes):
     """

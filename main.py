@@ -17,11 +17,11 @@ import pandas as pd
 from data_lineage.lineage_network.network_populate import process_io_logs_df
 from data_lineage.lineage_network.network_populate import add_io_logs_to_network
 from data_lineage.lineage_network.network_base import remove_nodes_from_network
-from data_lineage.lineage_network.network_base import add_graphviz_meta_to_io_network
-from data_lineage.lineage_network.network_base import get_implied_layer_order
-from data_lineage.lineage_network.network_base import set_node_colors
 from data_lineage.lineage_network.network_base import nodes, edges
 from data_lineage.lineage_network.network_base import nodes_id_meta_map, edges_id_meta_map, nodes_name_id_map
+from data_lineage.lineage_network.newtork_plot import add_graphviz_meta_to_io_network
+from data_lineage.lineage_network.newtork_plot import get_implied_layer_order
+from data_lineage.lineage_network.newtork_plot import set_node_colors
 from data_lineage.lineage_network.newtork_plot import draw_lineage_plot
 from data_lineage.lineage_network.newtork_plot import clean_graphviz_svg
 from data_lineage.lineage_network.newtork_plot import wrap_svg_in_html
@@ -39,17 +39,6 @@ paths_to_pbips = [
 ]
 # path_to_pbip_file = paths_to_pbips[0]
 pbip_sources = get_pbip_sources(paths_to_pbips[0])
-
-
-# TODO:
-# add a file lineage_networks_utils.py, which holds:
-# - move the add_io_logs_to_network into that file as well
-# - add_pbip_sources_to_network(paths_to_pbips[0], pbip_sources)
-# - also add maybe those (move from lineage_network_base.py)
-#   - add_graphviz_meta_to_io_network
-#   - get_implied_layer_order
-#   - set_node_colors
-
 
 
 
