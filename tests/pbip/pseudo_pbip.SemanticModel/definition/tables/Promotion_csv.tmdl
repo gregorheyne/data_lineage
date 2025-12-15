@@ -1,0 +1,81 @@
+﻿table Promotion
+
+	column Discount
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: Discount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'End Date'
+		dataType: dateTime
+		formatString: Long Date
+		summarizeBy: none
+		sourceColumn: End Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Promotion Category'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Promotion Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Promotion Code'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Promotion Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Promotion Type'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Promotion Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Promotion
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Promotion
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionKey
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: PromotionKey
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Start Date'
+		dataType: dateTime
+		formatString: Long Date
+		summarizeBy: none
+		sourceColumn: Start Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Promotion = m
+		mode: import
+		queryGroup: 'Full Table'
+		source =
+				let
+				    Source = Csv.Document(File.Contents("pbi-tools/contoso-sales-model/main/data/Promotion.csv"), [Delimiter=";", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Csv, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PromotionKey", Int64.Type}, {"Promotion Code", type text}, {"Promotion", type text}, {"Discount", type number}, {"Promotion Type", type text}, {"Promotion Category", type text}}),
+				    #"Parsed Date" = Table.TransformColumns(#"Changed Type",{{"Start Date", each Date.From(DateTimeZone.From(_)), type date}, {"End Date", each Date.From(DateTimeZone.From(_)), type date}})
+				in
+				    #"Parsed Date"
+

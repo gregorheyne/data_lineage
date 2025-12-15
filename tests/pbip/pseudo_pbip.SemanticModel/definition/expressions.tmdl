@@ -1,0 +1,55 @@
+expression HttpSource = "https://raw.githubusercontent.com/pbi-tools/adventureworksdw2020-pbix/main/data/" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression [SourceUrl] = "https://raw.githubusercontent.com/" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=false]
+	queryGroup: Parameters
+
+expression [Version] = "VERSION" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	queryGroup: Parameters
+
+expression [CI-Branch] = "CI-Branch" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	queryGroup: Parameters
+
+expression [CI-Commit] = "CI-Commit" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	queryGroup: Parameters
+
+expression [CI-BuildNumber] = "CI-BuildNumber" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	queryGroup: Parameters
+
+expression [CI-BuildReason] = "CI-BuildReason" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	queryGroup: Parameters
+
+expression [Environment] = "ENVIRONMENT" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	queryGroup: Parameters
+
+expression [FilterDate] = #date(2009, 1, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=false]
+	queryGroup: Parameters
+
+expression [PBITOOLS_VERSION] = "PBITOOLS_VERSION" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	queryGroup: Parameters
+
+expression "consumer file" = 
+		let
+			Source = Excel.Workbook(File.Contents("pbi-tools/contoso-sales-model/main/data/consumer.xlsx"), null, true),
+			# "consumer sheet" = Source{[Item="sheet_name", Kind="Sheet"]}[Data],
+			#"Promoted Headers" = Table.PromoteHeaders("consumer sheet", [PromoteAllScalars=true]),
+			#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ConsumerKey", Int64.Type}, {"Consumer Code", type text}, {"Consumer Name", type text}, {"Manufacturer", type text}, {"Brand", type text}, {"Subcategory", type text}, {"Category", type text}, {"Color", type text}})
+		in
+			#"Changed Type"
+		lineageTag: xysz-1224-sdlfns-cons
+		queryGroup: 'Consumer Data'
+		
+		annotation PBI_NavigationStepName = Navigation
+
+		annotation PBI_ResultType = Table
+
+expression 'some_expression_instance' = "the_value_of_the_expression_instance" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+		lineageTag: xysz-1224-sdlfns-txt-var
+		queryGroup: 'Consumer Data Load\Parameters'
+		
+		annotation PBI_NavigationStepName = Navigation
+
+		annotation PBI_ResultType = Text
