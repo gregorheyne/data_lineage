@@ -204,13 +204,7 @@ def get_source_from_table_tmdl(fp_table_tmdl) -> List[Dict[str, Any]]:
         text = f.read()
     source_block = _get_source_block(text)
     if not source_block:
-        source = {
-            'start_line': None,
-            'end_line': None,
-            'details': None,
-            'raw': None
-        }
-        return source
+        return dict()
     details = _get_source_text_details(source_block['content'])
     source = {
         'start_line': source_block['start_line'],
