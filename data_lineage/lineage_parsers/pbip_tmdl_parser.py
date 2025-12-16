@@ -24,6 +24,7 @@ import re
 import json
 import sys
 import os
+from datetime import datetime
 from typing import List, Dict, Any, Optional
 from pathlib import Path
 
@@ -37,6 +38,13 @@ SCHEMA_ITEM_RE = re.compile(r'\{\s*\[\s*Schema\s*=\s*(["\'])(?P<schema>.+?)\1\s*
 TABLE_SOURCE_INSTANCE_RE = re.compile(r'^\s*source\s*=\s*$', re.IGNORECASE)
 SOURCE_LINE_INSTANCE_RE = re.compile(r'^\s*source\s*=\s*', re.IGNORECASE)
 EXPRESSION_INSTANCE_RE = re.compile(r'^\s*expression\s+(?P<name>[^=]+?)\s*=\s*(?P<value>.*?)(?:\s+meta\s|\s*$)', re.IGNORECASE)
+
+def create_local_log_function(logger=None):
+    if not logger:
+        # default local log function
+        return lambda msg: print(f'{datetime.now().replace(microsecond=0)} (local log):', msg)        
+    else:
+        return lambda msg: logger(msg)
 
 def _line_indent(line: str) -> int:
     m = INDENT_RE.match(line)
@@ -195,6 +203,14 @@ def get_source_from_table_tmdl(fp_table_tmdl) -> List[Dict[str, Any]]:
     with open(fp_table_tmdl, 'r', encoding='utf-8') as f:
         text = f.read()
     source_block = _get_source_block(text)
+    if not source_block:
+        source = {
+            'start_line': None,
+            'end_line': None,
+            'details': None,
+            'raw': None
+        }
+        return source
     details = _get_source_text_details(source_block['content'])
     source = {
         'start_line': source_block['start_line'],
@@ -249,11 +265,13 @@ def get_expressions(fp_expressions_tmdl):
     
     return expressions
 
-def get_pbip_sources(path_to_pbip_file):
+def get_pbip_sources(path_to_pbip_file, logger=None):
     """
     Extracts Sources from Tables
     Requires saving the pbi report in pbip format with tmdl option activated
     """
+
+    loc_func = create_local_log_function(logger=logger)
 
     dir_pbib_definition = Path(str(path_to_pbip_file).replace('.pbip', '') + '.SemanticModel/definition')
 
@@ -269,7 +287,10 @@ def get_pbip_sources(path_to_pbip_file):
             'name': fp_table_tmdl.name.upper(),
             'type': 'table_tmdl'
             }
-        source = source | get_source_from_table_tmdl(fp_table_tmdl)
+        sources_found = get_source_from_table_tmdl(fp_table_tmdl)
+        if not sources_found:
+            loc_func(f'no sources found for {fp_table_tmdl.name}')
+        source = source | sources_found
         tmdl_table_sources.append(source)
     
     # extract sources from expressions

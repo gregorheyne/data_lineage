@@ -195,16 +195,14 @@ def get_registered_io_actions():
         "pyodbc.cursor.executemany"
     ])
 
-def write_io_logs_to_csv(fp_io_logs=None):
+def write_io_logs_to_csv(fp_io_logs_csv):
 
     # logs to pandas
     df_io_logs = pd.DataFrame(IO_LOG_RECORDS)
 
     # pandas to csv
-    if not fp_io_logs:
-        fp_io_logs = 'io_logs.csv'
-    print(f'writing {fp_io_logs}')
-    df_io_logs.to_csv(fp_io_logs, index=False, sep=';')
+    print(f'writing {fp_io_logs_csv.name}')
+    df_io_logs.to_csv(fp_io_logs_csv, index=False, sep=';')
     print('done')
 
     return None

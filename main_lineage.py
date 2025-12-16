@@ -38,7 +38,7 @@ add_io_logs_to_network(df_io_logs)
 paths_to_pbips = [
     Path(os.getcwd()) / 'tests/pbip/pseudo_pbip.pbip'
 ]
-# path_to_pbip_file = paths_to_pbips[0]
+path_to_pbip_file = paths_to_pbips[0]
 pbip_sources = get_pbip_sources(paths_to_pbips[0])
 # some hack for testing
 for i, pbip_source in enumerate(pbip_sources):
@@ -62,7 +62,6 @@ with open('lineage_plot.html', 'w', encoding='utf-8') as f:
     f.write(lineage_html)
 
 # TODO:
-
 
 # # copy to clipboard
 # import pyperclip
