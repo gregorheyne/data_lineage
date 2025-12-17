@@ -1,5 +1,6 @@
 from sqlglot import parse_one, exp
 import sqlglot
+import re
 
 sqlglot_version = tuple(int(part) for part in sqlglot.__version__.split(".")[:2])
 assert sqlglot_version >= (10, 0), "sqlglot version 10.0 or higher is required"
@@ -18,6 +19,9 @@ def resolve_sql_lineage(sql: str, dialect: str = "tsql"):
     Raises:
         ValueError: if multiple statements are detected
     """
+    # Preprocess SQL to handle DB2-specific syntax
+    sql = _preprocess_db2_sql(sql)
+    
     # Parse SQL using specified dialect
     tree = parse_one(sql, read=dialect)
 
@@ -49,6 +53,9 @@ def classify_sql(sql: str, dialect: str = "tsql") -> str:
         - "data_upload"
         - "data_retrieval"
     """
+    # Preprocess SQL to handle DB2-specific syntax
+    sql = _preprocess_db2_sql(sql)
+    
     tree = parse_one(sql, read=dialect)
 
     # -----------------------------------------------
@@ -110,6 +117,29 @@ def classify_sql(sql: str, dialect: str = "tsql") -> str:
 
 
 # ---------------- Helper Functions ---------------- #
+
+def _preprocess_db2_sql(sql: str) -> str:
+    """
+    Preprocess DB2-specific SQL syntax to standard SQL.
+    Converts DB2 temporal keywords to standard SQL format.
+    
+    Parameters:
+        sql (str): SQL statement with potential DB2-specific syntax
+    
+    Returns:
+        str: Preprocessed SQL with standardized syntax
+    """
+    # Convert CURRENT DATE to CURRENT_DATE (case-insensitive)
+    sql = re.sub(r'\bCURRENT\s+DATE\b', 'CURRENT_DATE', sql, flags=re.IGNORECASE)
+    
+    # Convert CURRENT TIME to CURRENT_TIME (case-insensitive)
+    sql = re.sub(r'\bCURRENT\s+TIME\b', 'CURRENT_TIME', sql, flags=re.IGNORECASE)
+    
+    # Convert CURRENT TIMESTAMP to CURRENT_TIMESTAMP (case-insensitive)
+    sql = re.sub(r'\bCURRENT\s+TIMESTAMP\b', 'CURRENT_TIMESTAMP', sql, flags=re.IGNORECASE)
+    
+    return sql
+
 
 def _get_cte_names(tree) -> set:
     """Collect names of CTEs to exclude them from input sources."""
