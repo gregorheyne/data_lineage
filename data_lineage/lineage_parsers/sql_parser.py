@@ -59,6 +59,13 @@ def classify_sql(sql: str, dialect: str = "tsql") -> str:
     tree = parse_one(sql, read=dialect)
 
     # -----------------------------------------------
+    # 0. Check for SELECT ... INTO (object_modification)
+    # -----------------------------------------------
+    # Must check before generic SELECT check, since SELECT ... INTO is also an exp.Select
+    if isinstance(tree, exp.Select) and tree.find(exp.Into):
+        return "object_modification"
+
+    # -----------------------------------------------
     # 1. Detect queries that retrieve data
     # -----------------------------------------------
     if isinstance(tree, exp.Select):
