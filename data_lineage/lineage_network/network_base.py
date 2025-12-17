@@ -7,6 +7,18 @@ nodes_id_meta_map = dict()
 edges_id_meta_map = dict()
 
 
+def clear_network():
+    """
+    Clears and resets the network by emptying nodes, edges, and all auxiliary maps/dicts.
+    """
+    nodes.clear()
+    edges.clear()
+    nodes_name_id_map.clear()
+    nodes_id_meta_map.clear()
+    edges_id_meta_map.clear()
+    return None
+
+
 def _format_node_name(node_name):
     return node_name.upper()
 
