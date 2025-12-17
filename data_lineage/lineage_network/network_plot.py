@@ -89,7 +89,10 @@ def set_node_colors():
         "wheat",
         "yellowgreen",
         "tomato",
-        "mediumaquamarine"
+        "mediumaquamarine",
+        "lightpink",
+        "lavender",
+        "lightcyan"
     ]
 
     layer_color_dict = dict()
@@ -97,7 +100,7 @@ def set_node_colors():
     for node in nodes:
         node_layer = node['layer']
         if node_layer not in layer_color_dict.keys():
-            layer_color_dict[node_layer] = colors_repo[color_id]
+            layer_color_dict[node_layer] = colors_repo[color_id % len(colors_repo)]
             color_id += 1
         node['color'] = layer_color_dict[node_layer]
 
