@@ -20,6 +20,7 @@ def clear_network():
 
 
 def _format_node_name(node_name):
+    node_name = node_name.replace('\\', '/')
     return node_name.upper()
 
 def _node_known(node_name):
@@ -38,7 +39,16 @@ def _add_to_nodes_id_meta_map(node):
     return None
 
 def _get_new_node_id():
-    return f'n{len(nodes)+1}'
+    if not nodes:
+        return 'n1'
+    else:
+        # get all node ids
+        node_ids = list(nodes_id_meta_map.keys())
+        # strip n and convert to int
+        node_ids_int = [int(node_id.replace('n', '')) for node_id in node_ids]
+        # max node id
+        max_node_id = max(node_ids_int)
+        return f'n{max_node_id+1}'
 
 def _add_new_node(node_name, node_type, meta_dict):
     node = {
