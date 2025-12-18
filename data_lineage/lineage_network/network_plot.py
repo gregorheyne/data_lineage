@@ -111,7 +111,8 @@ def draw_lineage_plot(
         edges,
         layer_order=None,
         fp_output: str=None,
-        fn_output: str='lineage_plot'):
+        fn_output: str='lineage_plot',
+        interactivity=True):
 
     # check consistency
     node_ids = set([node['id'] for node in nodes])
@@ -206,14 +207,23 @@ def draw_lineage_plot(
             for node_id in node_ids:
                 node = node_meta[node_id]
 
-                sub.node(node_id,
-                         label=get_node_display_name(node),
-                         shape=get_node_shape(node),
-                         style=get_node_style(node),
-                         fillcolor=get_node_color(node),
-                         tooltip=get_node_tooltip(node)
-                        #  URL=get_node_url(node)
+                if interactivity:
+                    sub.node(node_id,
+                            label=get_node_display_name(node),
+                            shape=get_node_shape(node),
+                            style=get_node_style(node),
+                            fillcolor=get_node_color(node),
+                            tooltip=get_node_tooltip(node)
+                            #  URL=get_node_url(node)
+                            )
+                else:
+                    sub.node(node_id,
+                        label=get_node_display_name(node),
+                        shape=get_node_shape(node),
+                        style=get_node_style(node),
+                        fillcolor=get_node_color(node)
                         )
+
 
     # ---------- Add edges with dashed styling if file involved ----------
     for edge in edges:
@@ -251,9 +261,10 @@ def draw_lineage_plot(
 
     return dot.pipe(format='svg')
 
-def clean_graphviz_svg(svg_bytes):
+def clean_graphviz_svg(svg_bytes, remove_interactive=True):
     """
     - removes some stuff coming from graphviz that interferes with displaying in pbi or even the browser
+    - if remove_interactive=True: strips all tooltips and interactive attributes for fully static SVG
     """
     
     svg = svg_bytes.decode("utf-8")
@@ -268,6 +279,16 @@ def clean_graphviz_svg(svg_bytes):
     # Fix width/height units (pt → nothing)
     svg = re.sub(r'width="([0-9.]+)pt"', r'width="\1"', svg)
     svg = re.sub(r'height="([0-9.]+)pt"', r'height="\1"', svg)
+
+    if remove_interactive:
+        # Remove all <title> elements (which create tooltips in SVG)
+        svg = re.sub(r'<title>.*?</title>', '', svg, flags=re.DOTALL)
+        
+        # Remove onclick attributes
+        svg = re.sub(r'\s*onclick="[^"]*"', '', svg)
+        
+        # Remove cursor pointers
+        svg = re.sub(r'\s*style="cursor:[^"]*"', '', svg)
 
     # (Optional) Normalize whitespace
     svg = svg.strip()
