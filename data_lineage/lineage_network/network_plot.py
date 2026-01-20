@@ -261,7 +261,7 @@ def draw_lineage_plot(
 
     return dot.pipe(format='svg')
 
-def clean_graphviz_svg(svg_bytes, remove_interactive=True):
+def clean_graphviz_svg(svg_bytes, remove_interactive=False):
     """
     - removes some stuff coming from graphviz that interferes with displaying in pbi or even the browser
     - if remove_interactive=True: strips all tooltips and interactive attributes for fully static SVG

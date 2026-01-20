@@ -52,6 +52,7 @@ def classify_sql(sql: str, dialect: str = "tsql") -> str:
         - "object_modification"
         - "data_upload"
         - "data_retrieval"
+        - "index_creation"
     """
     # Preprocess SQL to handle DB2-specific syntax
     sql = _preprocess_db2_sql(sql)
@@ -59,7 +60,13 @@ def classify_sql(sql: str, dialect: str = "tsql") -> str:
     tree = parse_one(sql, read=dialect)
 
     # -----------------------------------------------
-    # 0. Check for SELECT ... INTO (object_modification)
+    # 0. Check for CREATE INDEX (index_creation)
+    # -----------------------------------------------
+    if isinstance(tree, exp.Create) and tree.kind == "index":
+        return "index_creation"
+
+    # -----------------------------------------------
+    # 1. Check for SELECT ... INTO (object_modification)
     # -----------------------------------------------
     # Must check before generic SELECT check, since SELECT ... INTO is also an exp.Select
     if isinstance(tree, exp.Select) and tree.find(exp.Into):
