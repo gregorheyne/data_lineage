@@ -61,9 +61,10 @@ def run_sql_lineage_tests():
     expected = {'sources': ['Physical3', 'dbo.Physical4'], 'targets': ['V_New']}
     test_resolve_sql_lineage(sql, expected)
 
+    # testing different cases one the same object (Vcte vs vcte)
     sql="""
         CREATE VIEW schema_name.V_New AS
-        WITH vcte AS (
+        WITH Vcte AS (
             select 'value_1_1' col_name_1, 'value_1_2' col_name_2 union all
             select 'value_2_1', 'value_2_2'
         )

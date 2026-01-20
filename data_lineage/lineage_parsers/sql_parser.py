@@ -157,7 +157,7 @@ def _preprocess_db2_sql(sql: str) -> str:
 
 def _get_cte_names(tree) -> set:
     """Collect names of CTEs to exclude them from input sources."""
-    return {cte.alias for cte in tree.find_all(exp.CTE) if cte.alias}
+    return {cte.alias.lower() for cte in tree.find_all(exp.CTE) if cte.alias}
 
 
 def _get_targets(tree) -> set:
@@ -219,7 +219,7 @@ def _get_sources(tree, cte_names: set, targets: set) -> set:
         if isinstance(node, exp.Table):
             ident = _identifier(node)
             # exclude CTEs and targets
-            if node.name not in cte_names and ident not in targets:
+            if node.name.lower() not in cte_names and ident not in targets:
                 # For CREATE TABLE without SELECT, skip the table being created
                 # by checking if this table is the direct target of a Create statement
                 parent_create = node.find_ancestor(exp.Create)
