@@ -55,14 +55,14 @@ def classify_sql(sql: str, dialect: str = "tsql") -> str:
         - "index_creation"
     """
     # Preprocess SQL to handle DB2-specific syntax
-    sql = _preprocess_db2_sql(sql)
+    sql_preprocessed = _preprocess_db2_sql(sql)
     
-    tree = parse_one(sql, read=dialect)
+    tree = parse_one(sql_preprocessed, read=dialect)
 
     # -----------------------------------------------
     # 0. Check for CREATE INDEX (index_creation)
     # -----------------------------------------------
-    if isinstance(tree, exp.Create) and tree.kind == "index":
+    if isinstance(tree, exp.Create) and tree.kind == "INDEX":
         return "index_creation"
 
     # -----------------------------------------------
@@ -73,7 +73,7 @@ def classify_sql(sql: str, dialect: str = "tsql") -> str:
         return "object_modification"
 
     # -----------------------------------------------
-    # 1. Detect queries that retrieve data
+    # 2. Detect queries that retrieve data
     # -----------------------------------------------
     if isinstance(tree, exp.Select):
         return "data_retrieval"
@@ -108,8 +108,8 @@ def classify_sql(sql: str, dialect: str = "tsql") -> str:
     # 3. Object-modifying operations without literal uploads
     # -----------------------------------------------
 
-    # CREATE VIEW, CREATE TABLE, CREATE TABLE AS SELECT
-    if isinstance(tree, exp.Create):
+    # CREATE VIEW, CREATE TABLE, CREATE TABLE AS SELECT (but NOT CREATE INDEX)
+    if isinstance(tree, exp.Create) and tree.kind != "INDEX":
         return "object_modification"
 
     # INSERT ... SELECT ...

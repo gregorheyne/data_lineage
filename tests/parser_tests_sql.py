@@ -185,6 +185,12 @@ def run_sql_classify_test():
     assert 'data_upload' == classify_sql(sql), f'classification failed on {sql}'
     print(f'passed for "{sql}" as {classify_sql(sql)}')
 
+    # test classification of index creation
+    sql = "CREATE INDEX idx_name ON table_name (column_name)"
+    assert 'index_creation' == classify_sql(sql), f'classification failed on {sql}'
+    print(f'passed for "{sql}" as {classify_sql(sql)}')
+
+
     return None
 
 
