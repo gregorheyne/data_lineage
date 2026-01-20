@@ -61,6 +61,22 @@ def run_sql_lineage_tests():
     expected = {'sources': ['Physical3', 'dbo.Physical4'], 'targets': ['V_New']}
     test_resolve_sql_lineage(sql, expected)
 
+    sql="""
+        CREATE VIEW schema_name.V_New AS
+        WITH vcte AS (
+            select 'value_1_1' col_name_1, 'value_1_2' col_name_2 union all
+            select 'value_2_1', 'value_2_2'
+        )
+        select
+        k.id,
+        a.*
+        from vcte a
+        left join schema_2.table_b k
+        on a.col_name_1 = k.col_join
+        where col_c = 'filter_value' """
+    resolve_sql_lineage(sql)
+    expected = {'sources': ['schema_2.table_b'], 'targets': ['schema_name.V_New']}
+    test_resolve_sql_lineage(sql, expected)
 
     ###################
     # select into tests
