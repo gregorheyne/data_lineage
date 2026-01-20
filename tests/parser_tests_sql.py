@@ -74,7 +74,6 @@ def run_sql_lineage_tests():
         left join schema_2.table_b k
         on a.col_name_1 = k.col_join
         where col_c = 'filter_value' """
-    resolve_sql_lineage(sql)
     expected = {'sources': ['schema_2.table_b'], 'targets': ['schema_name.V_New']}
     test_resolve_sql_lineage(sql, expected)
 
