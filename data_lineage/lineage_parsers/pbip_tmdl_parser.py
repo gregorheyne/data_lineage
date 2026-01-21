@@ -246,6 +246,8 @@ def _get_expression_blocks(text: str):
 
 def get_expressions(fp_expressions_tmdl):
     """Top-level helper that finds all expression in expressions.tmdl and extracts structure details from it."""
+    if not fp_expressions_tmdl.exists():
+        return []
     with open(fp_expressions_tmdl, 'r', encoding='utf-8') as f:
         text = f.read()
     expressions = _get_expression_blocks(text)
