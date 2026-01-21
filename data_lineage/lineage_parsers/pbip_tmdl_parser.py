@@ -91,25 +91,34 @@ def _get_source_block(text: str) -> List[Dict[str, Any]]:
 
     Each entry is a dict with keys: start_line (0-based), end_line, content.
     """
-    lines = text.splitlines()
-    results = []
-    i = 0
-    n = len(lines)
 
-    while i < n:
-        # i=71
-        line = lines[i]
-        m = TABLE_SOURCE_INSTANCE_RE.match(line)
-        if m:
-            content, j = _get_indentation_block(lines, i)
-            results.append({
-                'start_line': i,
-                'end_line': j - 1,
-                'content': content,
-            })
-            i = j
-            continue
-        i += 1
+    def _regex_search(text, regex_function):
+        lines = text.splitlines()
+        results = []
+        i = 0
+        n = len(lines)
+
+        while i < n:
+            # i=71
+            line = lines[i]
+            m = regex_function.match(line)
+            if m:
+                content, j = _get_indentation_block(lines, i)
+                results.append({
+                    'start_line': i,
+                    'end_line': j - 1,
+                    'content': content,
+                })
+                i = j
+                continue
+            i += 1
+        return results
+
+    # regex based search
+    results = _regex_search(text, TABLE_SOURCE_INSTANCE_RE)
+    # try less restrictive regex if nothing was found
+    if len(results) == 0:
+        results = _regex_search(text, SOURCE_LINE_INSTANCE_RE)
 
     assert len(results) <= 1, 'found more than one source block in expression passed to get_source_block()'
     if results:
