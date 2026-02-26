@@ -1,3 +1,6 @@
+import yaml
+from pathlib import Path
+
 # initialize nodes end edges
 nodes = []
 edges = []
@@ -151,6 +154,38 @@ def remove_nodes_from_network(nodes_to_remove: list):
         tgt_id = edge['tgt_id']
         # actual removals
         edges.remove(edge)
-        edges_id_meta_map.pop((src_id, tgt_id))
+        edges_id_meta_map.pop(_get_edge_id(src_id, tgt_id))
 
+    return None
+
+def write_yaml(data, fp):
+    with fp.open('w', encoding='utf-8') as f:
+        yaml.dump(
+            data,
+            f,
+            sort_keys=False,
+            allow_unicode=True
+        )
+    return None
+
+def read_yaml(fp):
+    with fp.open('r', encoding='utf-8') as f:
+        return yaml.safe_load(f)
+
+def save_network_to_yaml(dir: Path):
+    dir.mkdir(parents=True, exist_ok=True)
+    write_yaml(nodes, dir / 'network_nodes.yaml')
+    write_yaml(edges, dir / 'network_edges.yaml')
+    write_yaml(nodes_name_id_map, dir / 'network_nodes_name_id_map.yaml')
+    write_yaml(nodes_id_meta_map, dir / 'network_nodes_id_meta_map.yaml')
+    write_yaml(edges_id_meta_map, dir / 'network_edges_id_meta_map.yaml')
+    return None
+
+def load_network_from_yaml(dir: Path):
+    clear_network()
+    nodes.extend(read_yaml(dir / 'network_nodes.yaml'))
+    edges.extend(read_yaml(dir / 'network_edges.yaml'))
+    nodes_name_id_map.update(read_yaml(dir / 'network_nodes_name_id_map.yaml'))
+    nodes_id_meta_map.update(read_yaml(dir / 'network_nodes_id_meta_map.yaml'))
+    edges_id_meta_map.update(read_yaml(dir / 'network_edges_id_meta_map.yaml'))
     return None
