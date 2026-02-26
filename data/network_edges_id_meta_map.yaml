@@ -1,0 +1,30 @@
+n1_n2:
+  type: from_py_node
+n1_n3:
+  type: from_py_node
+n2_n1:
+  type: to_py_node
+n3_n1:
+  type: to_py_node
+n4_n1:
+  type: to_py_node
+n2_n5:
+  type: to_py_node
+n3_n5:
+  type: to_py_node
+n5_n6:
+  type: from_py_node
+n6_n5:
+  type: to_py_node
+n7_n8:
+  type: to_pbi_node
+n9_n8:
+  type: to_pbi_node
+n10_n8:
+  type: to_pbi_node
+n6_n8:
+  type: to_pbi_node
+n11_n8:
+  type: to_pbi_node
+n12_n8:
+  type: to_pbi_node

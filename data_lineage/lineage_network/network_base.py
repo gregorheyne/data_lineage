@@ -74,11 +74,14 @@ def register_node(node_name, node_type, meta_dict=None):
         _add_new_node(node_name, node_type, meta_dict)
     return None
 
+def _get_edge_id(src_id, tgt_id):
+    return src_id + '_' + tgt_id
+
 def _edge_known(src_id, tgt_id):
-    return (src_id, tgt_id) in edges_id_meta_map
+    return _get_edge_id(src_id, tgt_id) in edges_id_meta_map
 
 def _add_to_edges_id_meta_map(edge):
-    edge_key = (edge['src_id'], edge['tgt_id'])
+    edge_key = _get_edge_id(edge['src_id'], edge['tgt_id'])
     edges_id_meta_map[edge_key] = {
         'type': edge['type']
         }
@@ -104,7 +107,7 @@ def register_edge(src, tgt, edge_type):
 
     if _edge_known(src_id, tgt_id):
         # check if we find the same meta data in the already existing edge
-        assert edges_id_meta_map[(src_id, tgt_id)]['type'] == edge_type, f'found conflicting edge type for edge {(src_id, tgt_id)}'
+        assert edges_id_meta_map[_get_edge_id(src_id, tgt_id)]['type'] == edge_type, f'found conflicting edge type for edge {_get_edge_id(src_id, tgt_id)}'
     else:
         _add_new_edge(src_id, tgt_id, edge_type)
     return None
