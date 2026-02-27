@@ -172,22 +172,22 @@ def read_yaml(fp):
     with fp.open('r', encoding='utf-8') as f:
         return yaml.safe_load(f)
 
-def save_network_to_yaml(dir: Path):
+def save_network_to_yaml(dir: Path, network_name: str =''):
     dir.mkdir(parents=True, exist_ok=True)
-    write_yaml(nodes, dir / 'network_nodes.yaml')
-    write_yaml(edges, dir / 'network_edges.yaml')
-    write_yaml(nodes_name_id_map, dir / 'network_nodes_name_id_map.yaml')
-    write_yaml(nodes_id_meta_map, dir / 'network_nodes_id_meta_map.yaml')
-    write_yaml(edges_id_meta_map, dir / 'network_edges_id_meta_map.yaml')
+    write_yaml(nodes, dir / f'{network_name}_network_nodes.yaml')
+    write_yaml(edges, dir / f'{network_name}_network_edges.yaml')
+    write_yaml(nodes_name_id_map, dir / f'{network_name}_network_nodes_name_id_map.yaml')
+    write_yaml(nodes_id_meta_map, dir / f'{network_name}_network_nodes_id_meta_map.yaml')
+    write_yaml(edges_id_meta_map, dir / f'{network_name}_network_edges_id_meta_map.yaml')
     return None
 
-def load_network_from_yaml(dir: Path):
+def load_network_from_yaml(dir: Path, network_name: str =''):
     clear_network()
-    nodes.extend(read_yaml(dir / 'network_nodes.yaml'))
-    edges.extend(read_yaml(dir / 'network_edges.yaml'))
-    nodes_name_id_map.update(read_yaml(dir / 'network_nodes_name_id_map.yaml'))
-    nodes_id_meta_map.update(read_yaml(dir / 'network_nodes_id_meta_map.yaml'))
-    edges_id_meta_map.update(read_yaml(dir / 'network_edges_id_meta_map.yaml'))
+    nodes.extend(read_yaml(dir / f'{network_name}_network_nodes.yaml'))
+    edges.extend(read_yaml(dir / f'{network_name}_network_edges.yaml'))
+    nodes_name_id_map.update(read_yaml(dir / f'{network_name}_network_nodes_name_id_map.yaml'))
+    nodes_id_meta_map.update(read_yaml(dir / f'{network_name}_network_nodes_id_meta_map.yaml'))
+    edges_id_meta_map.update(read_yaml(dir / f'{network_name}_network_edges_id_meta_map.yaml'))
     return None
 
 def get_network_copy():

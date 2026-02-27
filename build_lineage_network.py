@@ -29,4 +29,4 @@ add_pbip_sources_to_network(paths_to_pbips[0], pbip_sources)
 
 remove_nodes_from_network(['SamPle_data.CSV'])
 
-save_network_to_yaml(Path('data/'))
+save_network_to_yaml(dir=Path('data/'), network_name='demo')

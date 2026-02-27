@@ -8,7 +8,7 @@ from data_lineage.lineage_network.network_plot import draw_lineage_plot
 from data_lineage.lineage_network.network_plot import clean_graphviz_svg
 from data_lineage.lineage_network.network_plot import wrap_svg_in_html
 
-load_network_from_yaml(Path('data/'))
+load_network_from_yaml(dir=Path('data/'), network_name='demo')
 
 network = get_network_copy()
 
