@@ -63,7 +63,7 @@ def ancestors_up_to(G, source, n):
     lengths = nx.single_source_shortest_path_length(G_rev, source, cutoff=n)
     return {node for node, dist in lengths.items() if 0 < dist <= n}
 
-def add_filter_on_attribute(attribute: str, values: list):
+def add_filter_to_nx(attribute: str, values: list):
     # attribute = 'module'
     # values = ['test_module']
     filtered_nodes_tmp = [

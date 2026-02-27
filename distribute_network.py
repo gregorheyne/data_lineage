@@ -2,7 +2,7 @@ from pathlib import Path
 from data_lineage.lineage_network.network_base import get_network_copy
 from data_lineage.lineage_network.network_base import load_network_from_yaml
 from data_lineage.lineage_network.network_filter import register_network_as_nx
-from data_lineage.lineage_network.network_filter import add_filter_on_attribute
+from data_lineage.lineage_network.network_filter import add_filter_to_nx
 from data_lineage.lineage_network.network_filter import get_filtered_network
 from data_lineage.lineage_network.network_plot import add_graphviz_meta_to_io_network
 from data_lineage.lineage_network.network_plot import get_implied_layer_order
@@ -30,7 +30,7 @@ set_node_colors(network)
 
 # use filtering to define what will be actually plotted
 register_network_as_nx(network)
-add_filter_on_attribute('name', ['RANDOM_DATA_SECONDARY'])
+add_filter_to_nx('name', ['RANDOM_DATA_SECONDARY'])
 sub_network = get_filtered_network(descendant_level=1, ancestor_level='max')
 
 
