@@ -3,7 +3,6 @@ import re
 from graphviz import Digraph
 from collections import defaultdict
 from pathlib import Path
-from data_lineage.lineage_network.network_base import nodes, edges
 
 
 def add_graphviz_meta_to_io_network(network):
