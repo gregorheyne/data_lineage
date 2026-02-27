@@ -1,6 +1,9 @@
 from pathlib import Path
 from data_lineage.lineage_network.network_base import get_network_copy
 from data_lineage.lineage_network.network_base import load_network_from_yaml
+from data_lineage.lineage_network.network_filter import register_network_as_nx
+from data_lineage.lineage_network.network_filter import add_filter_on_attribute
+from data_lineage.lineage_network.network_filter import get_filtered_network
 from data_lineage.lineage_network.network_plot import add_graphviz_meta_to_io_network
 from data_lineage.lineage_network.network_plot import get_implied_layer_order
 from data_lineage.lineage_network.network_plot import set_node_colors
@@ -13,7 +16,6 @@ load_network_from_yaml(dir=Path('data/'), network_name='demo')
 network = get_network_copy()
 
 # TODO:
-# - build a function that given a network object and a start node filters the network to ancestors and descendants of this node
 # - build a streamlit app that:
 #   - consumes the original network object
 #   - displays the a filterable table which displays edges, i.e. source, target, source and target type, edge type
@@ -26,13 +28,24 @@ add_graphviz_meta_to_io_network(network)
 layer_order = get_implied_layer_order(network)
 set_node_colors(network)
 
+# use filtering to define what will be actually plotted
+register_network_as_nx(network)
+add_filter_on_attribute('name', ['RANDOM_DATA_SECONDARY'])
+sub_network = get_filtered_network(descendant_level=1, ancestor_level='max')
+
+
 # draw the plots
 dir_data = Path('data/')
-svg_bytes = draw_lineage_plot(network, layer_order=layer_order, fp_output=dir_data)
+fn_base = 'test_filter'
+svg_bytes = draw_lineage_plot(
+    sub_network,
+    layer_order=layer_order,
+    fp_output=dir_data,
+    fn_output=fn_base)
 cleaned_svg = clean_graphviz_svg(svg_bytes)
 lineage_html = wrap_svg_in_html(cleaned_svg)
 # print(lineage_html)
-with open(dir_data / 'lineage_plot.html', 'w', encoding='utf-8') as f:
+with open(dir_data / f'{fn_base}.html', 'w', encoding='utf-8') as f:
     f.write(lineage_html)
 
 
