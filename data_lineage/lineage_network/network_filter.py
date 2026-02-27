@@ -4,8 +4,14 @@ G = nx.DiGraph()
 
 filtered_nodes = set()
 
+def clear_nx_graph():
+    G.clear()
+    filtered_nodes.clear()
+    return None
 
 def register_network_as_nx(network):
+
+    clear_nx_graph()
 
     # add nodes
     for node in network['nodes']:
@@ -46,7 +52,6 @@ def get_network_from_nx(nx_graph=None):
     network['edges'] = edges
 
     return network
-
 
 def descendants_up_to(G, source, n):
     lengths = nx.single_source_shortest_path_length(G, source, cutoff=n)
