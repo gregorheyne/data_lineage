@@ -4,16 +4,17 @@ from graphviz import Digraph
 from collections import defaultdict
 from pathlib import Path
 from data_lineage.lineage_network.network_base import nodes, edges
-from data_lineage.lineage_network.network_base import nodes_id_meta_map
 
 
-
-def add_graphviz_meta_to_io_network():
+def add_graphviz_meta_to_io_network(network):
 
     # add color, shape, style for nodes
     # add style for edges
 
-    for node in nodes:
+    # keep track of node type
+    node_types = dict()
+
+    for node in network['nodes']:
 
         node['tooltip'] = node['name']
 
@@ -26,46 +27,49 @@ def add_graphviz_meta_to_io_network():
             node['layer'] = f"PBI Sources ({node['pbi_name']})"
 
         # set display name, shape and style
-        if node['type'] == 'file':
+        node_type = node['type']
+        node_types[node['id']] = node_type
+
+        if node_type == 'file':
             node['display_name'] = os.path.basename(node['name'])
             node['shape'] = 'folder'
             node['style'] = 'rounded,filled,dashed'
-        elif node['type'] == 'py_node':
+        elif node_type == 'py_node':
             node['display_name'] = 'py'
             node['shape'] = 'diamond'
             node['style'] = 'filled'
-        elif node['type'] == 'db_object':
+        elif node_type == 'db_object':
             node['display_name'] = node['name']
             node['shape'] = 'box'
             node['style'] = 'rounded,filled'
-        elif node['type'] == 'pbi':
+        elif node_type == 'pbi':
             node['display_name'] = node['name']
             node['shape'] = 'doubleoctagon'
             node['style'] = 'filled'
         else:
             node['display_name'] = node['name']
 
-    for edge in edges:
+    for edge in network['edges']:
         src_id = edge['src_id']
         tgt_id = edge['tgt_id']
         # check if we have a file as source or target
-        src_type = nodes_id_meta_map[src_id]['type']
-        tgt_type = nodes_id_meta_map[tgt_id]['type']
+        src_type = node_types[src_id]
+        tgt_type = node_types[tgt_id]
         if ((src_type == 'file') or (tgt_type == 'file')):
             edge['style'] = 'dashed'
 
     return None
 
-def get_implied_layer_order():
+def get_implied_layer_order(network):
     layers = set()
     layer_order = []
-    for node in nodes:
+    for node in network['nodes']:
         if node['layer'] not in layers:
             layers.add(node['layer'])
             layer_order.append(node['layer'])
     return layer_order
 
-def set_node_colors():
+def set_node_colors(network):
 
     colors_repo = [
         "lightblue",
@@ -97,7 +101,7 @@ def set_node_colors():
 
     layer_color_dict = dict()
     color_id = 0
-    for node in nodes:
+    for node in network['nodes']:
         node_layer = node['layer']
         if node_layer not in layer_color_dict.keys():
             layer_color_dict[node_layer] = colors_repo[color_id % len(colors_repo)]
@@ -107,12 +111,14 @@ def set_node_colors():
     return None
 
 def draw_lineage_plot(
-        nodes,
-        edges,
+        network,
         layer_order=None,
         fp_output: str=None,
         fn_output: str='lineage_plot',
         interactivity=True):
+
+    nodes = network['nodes']
+    edges = network['edges']
 
     # check consistency
     node_ids = set([node['id'] for node in nodes])

@@ -189,3 +189,12 @@ def load_network_from_yaml(dir: Path):
     nodes_id_meta_map.update(read_yaml(dir / 'network_nodes_id_meta_map.yaml'))
     edges_id_meta_map.update(read_yaml(dir / 'network_edges_id_meta_map.yaml'))
     return None
+
+def get_network_copy():
+
+    network = {
+        'nodes': nodes.copy(),
+        'edges': edges.copy()
+    }
+
+    return network

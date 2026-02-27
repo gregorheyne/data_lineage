@@ -1,14 +1,8 @@
-n1_n2:
-  type: from_py_node
 n1_n3:
   type: from_py_node
-n2_n1:
-  type: to_py_node
 n3_n1:
   type: to_py_node
 n4_n1:
-  type: to_py_node
-n2_n5:
   type: to_py_node
 n3_n5:
   type: to_py_node

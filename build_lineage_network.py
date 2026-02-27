@@ -1,8 +1,5 @@
-# below is about reading
-# in io logs and converting them to a
-# network and printing them to svg
+# reading in io logs and pbi sources and add them to the network
 import os
-import yaml
 from pathlib import Path
 import pandas as pd
 from data_lineage.lineage_parsers.pbip_tmdl_parser import get_pbip_sources
@@ -10,15 +7,7 @@ from data_lineage.lineage_network.network_populate import process_io_logs_df
 from data_lineage.lineage_network.network_populate import add_io_logs_to_network
 from data_lineage.lineage_network.network_populate import add_pbip_sources_to_network
 from data_lineage.lineage_network.network_base import remove_nodes_from_network
-from data_lineage.lineage_network.network_base import nodes, edges
-from data_lineage.lineage_network.network_base import nodes_id_meta_map, edges_id_meta_map, nodes_name_id_map
-from data_lineage.lineage_network.network_base import save_network_to_yaml, load_network_from_yaml
-from data_lineage.lineage_network.network_plot import add_graphviz_meta_to_io_network
-from data_lineage.lineage_network.network_plot import get_implied_layer_order
-from data_lineage.lineage_network.network_plot import set_node_colors
-from data_lineage.lineage_network.network_plot import draw_lineage_plot
-from data_lineage.lineage_network.network_plot import clean_graphviz_svg
-from data_lineage.lineage_network.network_plot import wrap_svg_in_html
+from data_lineage.lineage_network.network_base import save_network_to_yaml
 
 
 df_io_logs = pd.read_csv('data/io_logs.csv', sep=';')
@@ -37,5 +26,7 @@ for i, pbip_source in enumerate(pbip_sources):
     if pbip_source == {'type': 'db_object', 'name': 'sqllite_schema.Random_data_secondary'}:
         pbip_sources[i] = {'type': 'db_object', 'name': 'Random_data_secondary'}
 add_pbip_sources_to_network(paths_to_pbips[0], pbip_sources)
+
+remove_nodes_from_network(['SamPle_data.CSV'])
 
 save_network_to_yaml(Path('data/'))

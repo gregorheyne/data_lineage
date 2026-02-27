@@ -4,12 +4,6 @@ n1:
   module: test_module
   io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
   origin: io_logs_py
-n2:
-  name: /USERS/GREGORHEYNE/DOCUMENTS/CODING/DATA_LINEAGE/TESTS/IO_TESTS_DATA/SAMPLE_DATA.CSV
-  type: file
-  module: test_module
-  io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
-  origin: io_logs_py
 n3:
   name: /USERS/GREGORHEYNE/DOCUMENTS/CODING/DATA_LINEAGE/TESTS/IO_TESTS_DATA/SAMPLE_DATA.PKL
   type: file
