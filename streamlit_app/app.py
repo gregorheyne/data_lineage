@@ -1,5 +1,5 @@
 import streamlit as st
-from network_state import init_session_state
+from app_state import init_session_state
 
 st.set_page_config(page_title="Data Lineage Explorer", layout="wide")
 

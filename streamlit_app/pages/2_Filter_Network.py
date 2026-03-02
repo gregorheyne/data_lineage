@@ -4,7 +4,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))   # streamlit_app/ for net
 
 import streamlit as st
 import streamlit.components.v1 as components
-from network_state import load_network, init_session_state
+from app_state import load_network, init_session_state
 from data_lineage.lineage_network.network_filter import (
     G,
     filtered_nodes,

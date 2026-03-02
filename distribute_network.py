@@ -17,12 +17,9 @@ network = get_network_copy()
 
 # TODO:
 # - build function that returns the nodes without descendants
-# - build a streamlit app that:
-# - tracks user logins and actions
-#   - consumes the original network object
-#   - displays the a filterable table which displays edges, i.e. source, target, source and target type, edge type
-#   - has a plotting function which plots the network using the draw lineage plot function 
-#     - specify further, e.g. allows selection of nodes that serve as origin for the filtering function
+# - streamlit app enhancements:
+#   - tracks user logins and actions
+#   - cache preferred filters to cache function
 
 
 # prepare for plotting
