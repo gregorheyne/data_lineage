@@ -1,8 +1,9 @@
 import streamlit as st
-from app_state import init_session_state
+from app_state import init_session_state, require_auth
 
 st.set_page_config(page_title="Data Lineage Explorer", layout="wide")
 
+require_auth()
 init_session_state()
 
 st.title("Data Lineage Explorer")

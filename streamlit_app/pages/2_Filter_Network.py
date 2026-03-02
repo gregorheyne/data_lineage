@@ -4,7 +4,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))   # streamlit_app/ for net
 
 import streamlit as st
 import streamlit.components.v1 as components
-from app_state import load_network, init_session_state
+from app_state import load_network, init_session_state, require_auth
 from data_lineage.lineage_network.network_filter import (
     G,
     filtered_nodes,
@@ -22,6 +22,7 @@ from data_lineage.lineage_network.network_plot import (
 
 st.set_page_config(page_title="Filter Network", layout="wide")
 
+require_auth()
 init_session_state()
 
 network = load_network()

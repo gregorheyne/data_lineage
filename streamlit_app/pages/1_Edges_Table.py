@@ -5,10 +5,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent))   # streamlit_app/ for net
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
-from app_state import load_network, init_session_state
+from app_state import load_network, init_session_state, require_auth
 
 st.set_page_config(page_title="Edges Table", layout="wide")
 
+require_auth()
 init_session_state()
 
 network = load_network()
