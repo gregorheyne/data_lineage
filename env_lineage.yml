@@ -16,3 +16,5 @@ dependencies:
     - graphviz == 0.21
     - pyvis
     - pyperclip
+    - streamlit == 1.52.2
+    - streamlit-aggrid
