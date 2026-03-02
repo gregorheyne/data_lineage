@@ -53,6 +53,14 @@ def get_network_from_nx(nx_graph=None):
 
     return network
 
+def max_path_length(G):
+    max_len = 0
+    for source in G.nodes():
+        # BFS shortest paths = longest reachable in DAG context
+        lengths = nx.single_source_shortest_path_length(G, source)
+        max_len = max(max_len, max(lengths.values(), default=0))
+    return max_len
+
 def descendants_up_to(G, source, n):
     lengths = nx.single_source_shortest_path_length(G, source, cutoff=n)
     return {node for node, dist in lengths.items() if 0 < dist <= n}
@@ -88,7 +96,7 @@ def get_filtered_network(descendant_level=None, ancestor_level=None):
             descendants = set().union(*(nx.descendants(G, node) for node in filtered_nodes))
     if ancestor_level:
         if type(ancestor_level) == int:
-            ancestors = set().union(*(ancestors_up_to(G, node, descendant_level) for node in filtered_nodes))
+            ancestors = set().union(*(ancestors_up_to(G, node, ancestor_level) for node in filtered_nodes))
         elif ancestor_level == 'max':
             ancestors = set().union(*(nx.ancestors(G, node) for node in filtered_nodes))
 
