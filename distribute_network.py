@@ -18,6 +18,7 @@ network = get_network_copy()
 # TODO:
 # - build function that returns the nodes without descendants
 # - streamlit app enhancements:
+#   - replace placeholder auth with real auth
 #   - tracks user actions
 #   - cache preferred filters to cache function
 
@@ -27,19 +28,18 @@ add_graphviz_meta_to_io_network(network)
 layer_order = get_implied_layer_order(network)
 set_node_colors(network)
 
+dir_st_app = dir=Path('streamlit_app/')
+dir_st_app.mkdir(parents=True, exist_ok=True)
+from data_lineage.lineage_network.network_base import write_yaml
+write_yaml(network, dir_st_app / f'lineage_network.yaml')
+
+
+
+
 # use filtering to define what will be actually plotted
 register_network_as_nx(network)
 add_nodes_to_nx_filter('name', ['RANDOM_DATA_SECONDARY'])
 sub_network = get_filtered_network(descendant_level=1, ancestor_level='max')
-
-
-# dir_st_app = dir=Path('streamlit_app/')
-# dir_st_app.mkdir(parents=True, exist_ok=True)
-# from data_lineage.lineage_network.network_base import write_yaml
-# write_yaml(network, dir_st_app / f'example_network.yaml')
-
-
-
 
 
 
