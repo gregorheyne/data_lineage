@@ -125,3 +125,4 @@ io_tests_data/
 io_logs.csv
 lineage_plot.html
 lineage_plot.svg
+events.jsonl

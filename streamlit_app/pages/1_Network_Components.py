@@ -3,11 +3,17 @@ import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
 from app_state import load_network, init_session_state, require_auth
 from data_lineage.lineage_network.network_filter import get_node_child_counts
+from event_tracker import log_event
 
 st.set_page_config(page_title="Network Components", layout="wide")
 
 require_auth()
 init_session_state()
+
+PAGE_NAME = "Network Components"
+if st.session_state.get('_last_page') != PAGE_NAME:
+    log_event(st.session_state['username'], st.session_state['session_id'], "opened_page", {"page_name": PAGE_NAME})
+    st.session_state['_last_page'] = PAGE_NAME
 
 network = load_network()
 nodes = network['nodes']

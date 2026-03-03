@@ -4,11 +4,17 @@ sys.path.insert(0, str(Path(__file__).parent.parent))  # project root for data_l
 
 import streamlit as st
 from app_state import init_session_state, require_auth
+from event_tracker import log_event
 
 st.set_page_config(page_title="Data Lineage Explorer", layout="wide")
 
 require_auth()
 init_session_state()
+
+PAGE_NAME = "Home"
+if st.session_state.get('_last_page') != PAGE_NAME:
+    log_event(st.session_state['username'], st.session_state['session_id'], "opened_page", {"page_name": PAGE_NAME})
+    st.session_state['_last_page'] = PAGE_NAME
 
 st.title("Data Lineage Explorer")
 st.markdown("""

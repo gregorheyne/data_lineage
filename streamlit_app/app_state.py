@@ -1,5 +1,6 @@
 import hashlib
 import getpass
+import uuid
 from pathlib import Path
 
 import yaml
@@ -49,3 +50,5 @@ def init_session_state():
         st.session_state['nx_registered'] = True
     if 'applied_filters' not in st.session_state:
         st.session_state['applied_filters'] = []
+    if 'session_id' not in st.session_state:
+        st.session_state['session_id'] = str(uuid.uuid4())
