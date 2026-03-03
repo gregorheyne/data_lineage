@@ -18,7 +18,6 @@ network = get_network_copy()
 # TODO:
 # - streamlit app enhancements:
 #   - replace placeholder auth with real auth
-#   - tracks user actions
 #   - cache preferred filters to cache function
 
 

@@ -103,14 +103,6 @@ def on_ancestor_level_change():
 
 col3, col4 = st.columns(2)
 with col3:
-    descendant_level = st.selectbox(
-        "Descendant levels",
-        level_options,
-        format_func=fmt_level,
-        key='descendant_level',
-        on_change=on_descendant_level_change,
-    )
-with col4:
     ancestor_level = st.selectbox(
         "Ancestor levels",
         level_options,
@@ -118,7 +110,14 @@ with col4:
         key='ancestor_level',
         on_change=on_ancestor_level_change,
     )
-
+with col4:
+    descendant_level = st.selectbox(
+        "Descendant levels",
+        level_options,
+        format_func=fmt_level,
+        key='descendant_level',
+        on_change=on_descendant_level_change,
+    )
 st.divider()
 
 # ── Generate plot ─────────────────────────────────────────────────────────────
