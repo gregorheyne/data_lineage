@@ -21,6 +21,24 @@ Welcome to the **Data Lineage Explorer** — a tool for browsing and visualising
 
 ---
 
+### Scope
+
+""")
+
+import pandas as pd
+
+scope_data = pd.DataFrame([
+    {"Module": "Sales", "As of": "2024-01-15", "Comment": "Initial load from CRM", "Source": "Salesforce"},
+    {"Module": "Finance", "As of": "2024-02-01", "Comment": "Quarterly reconciliation", "Source": "SAP"},
+    {"Module": "HR", "As of": "2024-03-10", "Comment": "Annual headcount update", "Source": "Workday"},
+])
+st.dataframe(scope_data, use_container_width=True, hide_index=True)
+
+st.markdown("""
+
+
+---
+
 ### Pages
 
 - **Network Components** — Browse all network nodes and edges in sortable and filterable tables.
