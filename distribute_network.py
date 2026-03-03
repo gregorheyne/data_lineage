@@ -18,7 +18,7 @@ network = get_network_copy()
 # TODO:
 # - build function that returns the nodes without descendants
 # - streamlit app enhancements:
-#   - tracks user logins and actions
+#   - tracks user actions
 #   - cache preferred filters to cache function
 
 

@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))  # project root for data_lineage
+
 import streamlit as st
 from app_state import init_session_state, require_auth
 

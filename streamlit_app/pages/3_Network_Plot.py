@@ -1,7 +1,3 @@
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent))   # streamlit_app/ for network_state
-
 import streamlit as st
 import streamlit.components.v1 as components
 from app_state import init_session_state, require_auth
