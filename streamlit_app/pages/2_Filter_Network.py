@@ -1,6 +1,5 @@
 import streamlit as st
-from app_state import load_network, init_session_state, require_auth
-from event_tracker import log_event
+from app_state import load_network, init_session_state, require_auth, log_page_event
 from data_lineage.lineage_network.network_filter import (
     G,
     filtered_nodes,
@@ -23,7 +22,7 @@ init_session_state()
 
 PAGE_NAME = "Filter Network"
 if st.session_state.get('_last_page') != PAGE_NAME:
-    log_event(st.session_state['username'], st.session_state['session_id'], "opened_page", {"page_name": PAGE_NAME})
+    log_page_event(PAGE_NAME, "opened_page")
     st.session_state['_last_page'] = PAGE_NAME
 
 network = load_network()
@@ -50,10 +49,9 @@ with col2:
 if st.button("Add nodes to filter", disabled=not selected_values):
     add_nodes_to_nx_filter(selected_attr, selected_values)
     st.session_state['applied_filters'].append((selected_attr, list(selected_values)))
-    log_event(st.session_state['username'], st.session_state['session_id'], "button_clicked", {
+    log_page_event(PAGE_NAME, "button_clicked", {
         "button_name": "Add nodes to filter",
         "filter": {selected_attr: list(selected_values)},
-        "page_name": PAGE_NAME,
     })
 
 # Show accumulated filters
@@ -71,9 +69,8 @@ if st.button("Clear filters"):
     st.session_state.pop('plot_html', None)
     st.session_state.pop('descendant_level', None)
     st.session_state.pop('ancestor_level', None)
-    log_event(st.session_state['username'], st.session_state['session_id'], "button_clicked", {
+    log_page_event(PAGE_NAME, "button_clicked", {
         "button_name": "Clear filters",
-        "page_name": PAGE_NAME,
     })
     st.rerun()
 
@@ -93,17 +90,15 @@ def fmt_level(x):
     return str(x)
 
 def on_descendant_level_change():
-    log_event(st.session_state['username'], st.session_state['session_id'], "selectbox_clicked", {
+    log_page_event(PAGE_NAME, "selectbox_clicked", {
         "selectbox_name": "Descendant levels",
         "value": st.session_state['descendant_level'],
-        "page_name": PAGE_NAME,
     })
 
 def on_ancestor_level_change():
-    log_event(st.session_state['username'], st.session_state['session_id'], "selectbox_clicked", {
+    log_page_event(PAGE_NAME, "selectbox_clicked", {
         "selectbox_name": "Ancestor levels",
         "value": st.session_state['ancestor_level'],
-        "page_name": PAGE_NAME,
     })
 
 col3, col4 = st.columns(2)
@@ -133,9 +128,8 @@ if not has_filters:
     st.info("Add at least one filter before generating the plot.")
 else:
     if st.button("Generate plot"):
-        log_event(st.session_state['username'], st.session_state['session_id'], "button_clicked", {
+        log_page_event(PAGE_NAME, "button_clicked", {
             "button_name": "Generate plot",
-            "page_name": PAGE_NAME,
         })
         with st.spinner("Generating plot..."):
             filtered_network = get_filtered_network(descendant_level, ancestor_level)

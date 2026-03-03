@@ -1,7 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
-from app_state import init_session_state, require_auth
-from event_tracker import log_event
+from app_state import init_session_state, require_auth, log_page_event
 
 st.set_page_config(page_title="Network Plot", layout="wide")
 
@@ -10,7 +9,7 @@ init_session_state()
 
 PAGE_NAME = "Network Plot"
 if st.session_state.get('_last_page') != PAGE_NAME:
-    log_event(st.session_state['username'], st.session_state['session_id'], "opened_page", {"page_name": PAGE_NAME})
+    log_page_event(PAGE_NAME, "opened_page")
     st.session_state['_last_page'] = PAGE_NAME
 
 st.title("Network Plot")
