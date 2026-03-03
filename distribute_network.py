@@ -16,7 +16,6 @@ load_network_from_yaml(dir=Path('data/'), network_name='demo')
 network = get_network_copy()
 
 # TODO:
-# - build function that returns the nodes without descendants
 # - streamlit app enhancements:
 #   - replace placeholder auth with real auth
 #   - tracks user actions

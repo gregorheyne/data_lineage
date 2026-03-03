@@ -71,6 +71,12 @@ def ancestors_up_to(G, source, n):
     lengths = nx.single_source_shortest_path_length(G_rev, source, cutoff=n)
     return {node for node, dist in lengths.items() if 0 < dist <= n}
 
+def get_node_child_counts(nx_graph=None) -> dict:
+    """Return a dict mapping node_id -> number of direct successors (children)."""
+    if nx_graph is None:
+        nx_graph = G
+    return {node: len(list(nx_graph.successors(node))) for node in nx_graph.nodes()}
+
 def add_nodes_to_nx_filter(attribute: str, values: list):
     # attribute = 'module'
     # values = ['test_module']

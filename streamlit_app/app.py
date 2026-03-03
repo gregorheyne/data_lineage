@@ -18,7 +18,7 @@ Welcome to the **Data Lineage Explorer** — a tool for browsing and visualising
 
 ### Pages
 
-- **Edges Table** — Browse all network edges and nodes in a sortable, filterable table.
+- **Network Components** — Browse all network nodes and edges in sortable and filterable tables.
 - **Network Plot** — Filter the network by node attributes and render an interactive lineage plot.
 
 ---
