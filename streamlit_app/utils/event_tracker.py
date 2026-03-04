@@ -30,13 +30,13 @@ def ensure_event_table_exists():
     if not table_exists:
         cursor.execute(f"""
             CREATE TABLE [{SCHEMA_NAME}].[{TABLE_NAME}] (
+                ENVIRONMENT  NVARCHAR(MAX),
                 SESSION_ID   NVARCHAR(MAX),
                 TIMESTAMP    DATETIME2,
                 USER_ID      NVARCHAR(MAX),
                 PAGE_NAME    NVARCHAR(MAX),
                 EVENT_TYPE   NVARCHAR(MAX),
-                METADATA     NVARCHAR(MAX),
-                ENVIRONMENT  NVARCHAR(MAX)
+                METADATA     NVARCHAR(MAX)
             )
         """)
         conn.commit()
@@ -53,15 +53,15 @@ def upload_event(event: dict):
     cursor = conn.cursor()
     cursor.execute(
         f"INSERT INTO [{SCHEMA_NAME}].[{TABLE_NAME}]"
-        " (SESSION_ID, TIMESTAMP, USER_ID, PAGE_NAME, EVENT_TYPE, METADATA, ENVIRONMENT)"
+        " (ENVIRONMENT, SESSION_ID, TIMESTAMP, USER_ID, PAGE_NAME, EVENT_TYPE, METADATA)"
         " VALUES (?, ?, ?, ?, ?, ?, ?)",
+        event["environment"],
         event["session_id"],
         event["timestamp"],
         event["user_id"],
         event["page_name"],
         event["event_type"],
-        json.dumps(event["metadata"]),
-        event["environment"],
+        json.dumps(event["metadata"])
     )
     conn.commit()
     cursor.close()
@@ -71,13 +71,13 @@ def upload_event(event: dict):
 
 def log_event(session_id: str, user_id: str, page_name: str, event_type: str, metadata: dict = None):
     event = {
+        "environment": ENVIRONMENT,
         "session_id": session_id,
         "timestamp": datetime.utcnow(),
         "user_id": user_id,
         "page_name": page_name,
         "event_type": event_type,
-        "metadata": metadata or {},
-        "environment": ENVIRONMENT,
+        "metadata": metadata or {}
     }
     with open(LOG_FILE, "a") as f:
         f.write(json.dumps(event | {"timestamp": event["timestamp"].isoformat()}) + "\n")
