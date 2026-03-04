@@ -16,7 +16,7 @@ def ensure_event_table_exists():
 
     schema_exists = cursor.execute(
         "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?",
-        SCHEMA_NAME,
+        (SCHEMA_NAME,),
     ).fetchone()
     if not schema_exists:
         cursor.execute(f"CREATE SCHEMA [{SCHEMA_NAME}]")
@@ -24,8 +24,7 @@ def ensure_event_table_exists():
 
     table_exists = cursor.execute(
         "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?",
-        SCHEMA_NAME,
-        TABLE_NAME,
+        (SCHEMA_NAME, TABLE_NAME),
     ).fetchone()
     if not table_exists:
         cursor.execute(f"""
@@ -55,13 +54,15 @@ def upload_event(event: dict):
         f"INSERT INTO [{SCHEMA_NAME}].[{TABLE_NAME}]"
         " (ENVIRONMENT, SESSION_ID, TIMESTAMP, USER_ID, PAGE_NAME, EVENT_TYPE, METADATA)"
         " VALUES (?, ?, ?, ?, ?, ?, ?)",
-        event["environment"],
-        event["session_id"],
-        event["timestamp"],
-        event["user_id"],
-        event["page_name"],
-        event["event_type"],
-        json.dumps(event["metadata"])
+        (
+            event["environment"],
+            event["session_id"],
+            event["timestamp"],
+            event["user_id"],
+            event["page_name"],
+            event["event_type"],
+            json.dumps(event["metadata"]),
+        ),
     )
     conn.commit()
     cursor.close()
