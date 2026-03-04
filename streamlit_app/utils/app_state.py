@@ -56,10 +56,13 @@ def init_session_state():
     return None
 
 def set_page_style():
+    # - this here is tailor made for version 1.52.2
+    # - i.e. it might change/break if a different version is used
     st.markdown(
-        "<style>.main .block-container { padding-top: 2rem; }</style>",
+        "<style>div[data-testid='stMainBlockContainer'] { padding-top: 1rem !important; }</style>",
         unsafe_allow_html=True,
     )
+    return None
 
 def log_page_event(page_name: str, event_type: str, metadata: dict = None):
     log_event(
