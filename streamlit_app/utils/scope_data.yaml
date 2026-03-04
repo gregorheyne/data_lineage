@@ -1,0 +1,14 @@
+- Module: Sales
+  As of: "2024-01-15"
+  Comment: Initial load from CRM
+  Source: Salesforce
+
+- Module: Finance
+  As of: "2024-02-01"
+  Comment: Quarterly reconciliation
+  Source: SAP
+
+- Module: HR
+  As of: "2024-03-10"
+  Comment: Annual headcount update
+  Source: Workday

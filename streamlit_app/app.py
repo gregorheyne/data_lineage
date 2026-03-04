@@ -27,12 +27,11 @@ Welcome to the **Data Lineage Explorer** — a tool for browsing and visualising
 """)
 
 import pandas as pd
+import yaml
 
-scope_data = pd.DataFrame([
-    {"Module": "Sales", "As of": "2024-01-15", "Comment": "Initial load from CRM", "Source": "Salesforce"},
-    {"Module": "Finance", "As of": "2024-02-01", "Comment": "Quarterly reconciliation", "Source": "SAP"},
-    {"Module": "HR", "As of": "2024-03-10", "Comment": "Annual headcount update", "Source": "Workday"},
-])
+_scope_yaml = Path(__file__).parent / "utils" / "scope_data.yaml"
+with open(_scope_yaml) as f:
+    scope_data = pd.DataFrame(yaml.safe_load(f))
 st.dataframe(scope_data, use_container_width=True, hide_index=True)
 
 st.markdown("""

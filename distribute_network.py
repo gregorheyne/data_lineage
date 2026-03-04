@@ -26,13 +26,10 @@ add_graphviz_meta_to_io_network(network)
 layer_order = get_implied_layer_order(network)
 set_node_colors(network)
 
-dir_st_app = dir=Path('streamlit_app/')
-dir_st_app.mkdir(parents=True, exist_ok=True)
+dir_st_app_utils = Path('utils/')
+dir_st_app_utils.mkdir(parents=True, exist_ok=True)
 from data_lineage.lineage_network.network_base import write_yaml
-write_yaml(network, dir_st_app / f'lineage_network.yaml')
-
-
-
+write_yaml(network, dir_st_app_utils / f'lineage_network.yaml')
 
 # use filtering to define what will be actually plotted
 register_network_as_nx(network)
