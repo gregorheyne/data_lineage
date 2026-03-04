@@ -1,14 +1,16 @@
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
-from streamlit_app.utils.app_state import load_network, init_session_state, require_auth, log_page_event, set_page_style
+from streamlit_app.utils.app_state import load_network, init_session_state, require_auth, log_page_event, set_page_style, show_page_spinner, hide_page_spinner
 from data_lineage.lineage_network.network_filter import get_node_child_counts
 
 st.set_page_config(page_title="Network Components", layout="wide")
 
+_spinner = show_page_spinner()
 require_auth()
 init_session_state()
 set_page_style()
+hide_page_spinner(_spinner)
 
 PAGE_NAME = "Network Components"
 if st.session_state.get('_last_page') != PAGE_NAME:

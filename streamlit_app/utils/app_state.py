@@ -66,6 +66,22 @@ def set_page_style():
     )
     return None
 
+def show_page_spinner():
+    placeholder = st.empty()
+    placeholder.markdown(
+        "<div style='display:flex;justify-content:center;align-items:center;height:80vh'>"
+        "<div style='width:48px;height:48px;border:5px solid #e0e0e0;"
+        "border-top-color:#555555;border-radius:50%;"
+        "animation:_spin 0.8s linear infinite'></div>"
+        "<style>@keyframes _spin{to{transform:rotate(360deg)}}</style>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+    return placeholder
+
+def hide_page_spinner(placeholder):
+    placeholder.empty()
+
 def log_page_event(page_name: str, event_type: str, metadata: dict = None):
     log_event(
         st.session_state['session_id'],
