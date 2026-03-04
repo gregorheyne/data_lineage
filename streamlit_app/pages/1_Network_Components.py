@@ -40,8 +40,8 @@ nodes_df = pd.DataFrame(nodes_rows)
 
 gb_nodes = GridOptionsBuilder.from_dataframe(nodes_df)
 gb_nodes.configure_default_column(filter=True, sortable=True, resizable=True)
-gb_nodes.configure_grid_options(domLayout='autoHeight')
-AgGrid(nodes_df, gridOptions=gb_nodes.build(), fit_columns_on_grid_load=True)
+gb_nodes.configure_pagination(paginationAutoPageSize=False, paginationPageSize=15)
+AgGrid(nodes_df, gridOptions=gb_nodes.build(), fit_columns_on_grid_load=True, height=600)
 
 st.title("Edges")
 
@@ -59,6 +59,6 @@ edges_df = pd.DataFrame(edges_rows)
 
 gb = GridOptionsBuilder.from_dataframe(edges_df)
 gb.configure_default_column(filter=True, sortable=True, resizable=True)
-gb.configure_grid_options(domLayout='autoHeight')
-AgGrid(edges_df, gridOptions=gb.build(), fit_columns_on_grid_load=True)
+gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=15)
+AgGrid(edges_df, gridOptions=gb.build(), fit_columns_on_grid_load=True, height=600)
 
