@@ -1,3 +1,6 @@
+# dev run with "streamlit run streamlit_app/app.py"
+# prod run with "APP_ENVIRONMENT=prod streamlit run streamlit_app/app.py"
+
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))  # project root for data_lineage

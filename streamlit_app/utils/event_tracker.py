@@ -1,8 +1,11 @@
 import json
+import os
 from datetime import datetime
 from pathlib import Path
 
 from streamlit_app.utils.db_connections import ensure_event_table_exists, get_pyodbc_connection, SCHEMA_NAME, TABLE_NAME
+
+ENVIRONMENT = os.environ.get("APP_ENVIRONMENT", "dev")
 
 LOG_FILE = Path(__file__).parent.parent / "data" / "events.jsonl"
 
@@ -27,12 +30,13 @@ def ensure_event_table_exists():
     if not table_exists:
         cursor.execute(f"""
             CREATE TABLE [{SCHEMA_NAME}].[{TABLE_NAME}] (
-                SESSION_ID  NVARCHAR(MAX),
-                TIMESTAMP   DATETIME2,
-                USER_ID     NVARCHAR(MAX),
-                PAGE_NAME   NVARCHAR(MAX),
-                EVENT_TYPE  NVARCHAR(MAX),
-                METADATA    NVARCHAR(MAX)
+                SESSION_ID   NVARCHAR(MAX),
+                TIMESTAMP    DATETIME2,
+                USER_ID      NVARCHAR(MAX),
+                PAGE_NAME    NVARCHAR(MAX),
+                EVENT_TYPE   NVARCHAR(MAX),
+                METADATA     NVARCHAR(MAX),
+                ENVIRONMENT  NVARCHAR(MAX)
             )
         """)
         conn.commit()
@@ -49,14 +53,15 @@ def upload_event(event: dict):
     cursor = conn.cursor()
     cursor.execute(
         f"INSERT INTO [{SCHEMA_NAME}].[{TABLE_NAME}]"
-        " (SESSION_ID, TIMESTAMP, USER_ID, PAGE_NAME, EVENT_TYPE, METADATA)"
-        " VALUES (?, ?, ?, ?, ?, ?)",
+        " (SESSION_ID, TIMESTAMP, USER_ID, PAGE_NAME, EVENT_TYPE, METADATA, ENVIRONMENT)"
+        " VALUES (?, ?, ?, ?, ?, ?, ?)",
         event["session_id"],
         event["timestamp"],
         event["user_id"],
         event["page_name"],
         event["event_type"],
         json.dumps(event["metadata"]),
+        event["environment"],
     )
     conn.commit()
     cursor.close()
@@ -72,6 +77,7 @@ def log_event(session_id: str, user_id: str, page_name: str, event_type: str, me
         "page_name": page_name,
         "event_type": event_type,
         "metadata": metadata or {},
+        "environment": ENVIRONMENT,
     }
     with open(LOG_FILE, "a") as f:
         f.write(json.dumps(event | {"timestamp": event["timestamp"].isoformat()}) + "\n")
