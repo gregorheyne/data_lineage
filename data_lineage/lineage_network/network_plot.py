@@ -257,12 +257,8 @@ def draw_lineage_plot(
         legend.edge("db_object_1", "db_object_2", label="", style='solid')
         legend.edge("db_object_2", "pbi", label="", style='solid')
         
-
-    # Render PNG
-    # png_path = dot.render(cleanup=True)
-    # Render SVG
-    # dot.format = "svg"
-    svg_path = dot.render(cleanup=True)
+    if fp_output:
+        dot.render(cleanup=True)
 
     return dot.pipe(format='svg')
 
