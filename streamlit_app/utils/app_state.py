@@ -55,6 +55,12 @@ def init_session_state():
         st.session_state['session_id'] = str(uuid.uuid4())
     return None
 
+def set_page_style():
+    st.markdown(
+        "<style>.main .block-container { padding-top: 2rem; }</style>",
+        unsafe_allow_html=True,
+    )
+
 def log_page_event(page_name: str, event_type: str, metadata: dict = None):
     log_event(
         st.session_state['session_id'],

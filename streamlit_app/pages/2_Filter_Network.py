@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_app.utils.app_state import load_network, init_session_state, require_auth, log_page_event
+from streamlit_app.utils.app_state import load_network, init_session_state, require_auth, log_page_event, set_page_style
 from data_lineage.lineage_network.network_filter import (
     G,
     filtered_nodes,
@@ -19,6 +19,7 @@ st.set_page_config(page_title="Filter Network", layout="wide")
 
 require_auth()
 init_session_state()
+set_page_style()
 
 PAGE_NAME = "Filter Network"
 if st.session_state.get('_last_page') != PAGE_NAME:

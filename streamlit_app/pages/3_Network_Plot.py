@@ -1,11 +1,12 @@
 import streamlit as st
 import streamlit.components.v1 as components
-from streamlit_app.utils.app_state import init_session_state, require_auth, log_page_event
+from streamlit_app.utils.app_state import init_session_state, require_auth, log_page_event, set_page_style
 
 st.set_page_config(page_title="Network Plot", layout="wide")
 
 require_auth()
 init_session_state()
+set_page_style()
 
 PAGE_NAME = "Network Plot"
 if st.session_state.get('_last_page') != PAGE_NAME:
