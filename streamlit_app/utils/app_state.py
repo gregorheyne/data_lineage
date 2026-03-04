@@ -11,7 +11,7 @@ from streamlit_app.utils.event_tracker import log_event
 
 @st.cache_resource
 def load_network():
-    yaml_path = Path(__file__).parent / 'lineage_network.yaml'
+    yaml_path = Path(__file__).parent.parent / 'data' / 'lineage_network.yaml'
     # print(yaml_path)
     with open(yaml_path) as f:
         return yaml.safe_load(f)
@@ -19,7 +19,7 @@ def load_network():
 
 @st.cache_resource
 def load_credentials():
-    creds_path = Path(__file__).parent / 'credentials.yaml'
+    creds_path = Path(__file__).parent.parent / 'data' / 'credentials.yaml'
     # print(creds_path)
     with open(creds_path) as f:
         return yaml.safe_load(f)

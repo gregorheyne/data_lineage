@@ -29,7 +29,7 @@ Welcome to the **Data Lineage Explorer** — a tool for browsing and visualising
 import pandas as pd
 import yaml
 
-_scope_yaml = Path(__file__).parent / "utils" / "scope_data.yaml"
+_scope_yaml = Path(__file__).parent / "data" / "scope_data.yaml"
 with open(_scope_yaml) as f:
     scope_data = pd.DataFrame(yaml.safe_load(f))
 st.dataframe(scope_data, use_container_width=True, hide_index=True)

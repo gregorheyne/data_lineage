@@ -3,7 +3,7 @@ import pyodbc
 from datetime import datetime
 from pathlib import Path
 
-LOG_FILE = Path(__file__).parent / "events.jsonl"
+LOG_FILE = Path(__file__).parent.parent / "data" / "events.jsonl"
 
 SCHEMA_NAME = "schema_name"
 TABLE_NAME = "table_name"
