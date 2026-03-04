@@ -31,7 +31,9 @@ def require_auth():
         os_user = getpass.getuser()
         user_hash = hashlib.sha256(os_user.encode()).hexdigest()
         credentials = load_credentials()
-        user = credentials.get('users', {}).get(user_hash)
+        # disable credentials check and just allow everyone access
+        # user = credentials.get('users', {}).get(user_hash)
+        user = os_user
         if user:
             st.session_state['authenticated'] = True
             st.session_state['username'] = os_user
