@@ -26,7 +26,10 @@ def load_credentials():
 
 
 def require_auth():
-    """Authenticate via OS login name. Stops execution if user is not in the allowlist."""
+    """
+    NOTE:
+        Placeholder for a proper authentication
+    """
     if not st.session_state.get('authenticated'):
         os_user = getpass.getuser()
         user_hash = hashlib.sha256(os_user.encode()).hexdigest()
