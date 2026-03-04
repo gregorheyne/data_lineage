@@ -46,7 +46,7 @@ st.markdown("""
 
 ---
 
-### How to use the Filter Network page
+### How to use the Network Filter page
 
 1. Select a **node attribute** (`module`, `display_name`, `origin`, `pbi_name`) from the dropdown.
 2. Select one or more **attribute values** to seed the filter.
