@@ -309,6 +309,22 @@ def clean_graphviz_svg(svg_bytes, remove_interactive=False):
 
 svg_wrapper_template = """<!DOCTYPE html>
 <html>
+<head>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+</style>
+</head>
 <body>
 
 <!--
@@ -320,6 +336,22 @@ svg_wrapper_template = """<!DOCTYPE html>
 -->
 
 svg_placeholder
+
+<script>
+(function() {
+    try {
+        const offset = 160;
+        const parentHeight = window.parent.innerHeight;
+        const iframes = window.parent.document.querySelectorAll('iframe');
+        for (const iframe of iframes) {
+            if (iframe.contentWindow === window) {
+                iframe.style.height = Math.max(parentHeight - offset, 400) + 'px';
+                iframe.style.width = '100%';
+                break;
+            }
+        }
+    } catch(e) {}
+})();</script>
 
 <script>
 (function() {

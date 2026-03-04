@@ -18,4 +18,4 @@ st.title("Network Plot")
 if 'plot_html' not in st.session_state:
     st.info("No plot generated yet. Go to the **Filter Network** page to set filters and generate a plot.")
 else:
-    components.html(st.session_state['plot_html'], height=800, scrolling=True)
+    components.html(st.session_state['plot_html'], height=1200, scrolling=False)
