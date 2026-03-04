@@ -50,7 +50,7 @@ def ensure_table_exists():
         cursor.execute(f"""
             CREATE TABLE [{SCHEMA_NAME}].[{TABLE_NAME}] (
                 session_id  NVARCHAR(MAX),
-                timestamp   NVARCHAR(50),
+                timestamp   DATETIME2,
                 user_id     NVARCHAR(MAX),
                 page_name   NVARCHAR(MAX),
                 event_type  NVARCHAR(MAX),
@@ -62,6 +62,7 @@ def ensure_table_exists():
     cursor.close()
     conn.close()
 
+    return None
 
 def upload_event(event: dict):
     ensure_table_exists()
@@ -82,19 +83,23 @@ def upload_event(event: dict):
     cursor.close()
     conn.close()
 
+    return None
 
 def log_event(session_id: str, user_id: str, page_name: str, event_type: str, metadata: dict = None):
     event = {
         "session_id": session_id,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.utcnow(),
         "user_id": user_id,
         "page_name": page_name,
         "event_type": event_type,
         "metadata": metadata or {},
     }
     with open(LOG_FILE, "a") as f:
-        f.write(json.dumps(event) + "\n")
+        f.write(json.dumps(event | {"timestamp": event["timestamp"].isoformat()}) + "\n")
     try:
-        upload_event(event)
+        1==1
+        # upload_event(event)
     except Exception as e:
         print(f"[event_tracker] Azure SQL upload failed: {e}")
+
+    return None

@@ -3,7 +3,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))  # project root for data_lineage
 
 import streamlit as st
-from app_state import init_session_state, require_auth, log_page_event
+from streamlit_app.utils.app_state import init_session_state, require_auth, log_page_event
 
 st.set_page_config(page_title="Data Lineage Explorer", layout="wide")
 

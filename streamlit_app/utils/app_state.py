@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 import streamlit as st
 from data_lineage.lineage_network.network_filter import register_network_as_nx
-from streamlit_app.event_tracker import log_event
+from streamlit_app.utils.event_tracker import log_event
 
 
 @st.cache_resource
@@ -42,7 +42,7 @@ def require_auth():
 
     with st.sidebar:
         st.markdown(f"Logged in as **{st.session_state['user_display_name']}**")
-
+    return None
 
 def init_session_state():
     network = load_network()
@@ -53,7 +53,7 @@ def init_session_state():
         st.session_state['applied_filters'] = []
     if 'session_id' not in st.session_state:
         st.session_state['session_id'] = str(uuid.uuid4())
-
+    return None
 
 def log_page_event(page_name: str, event_type: str, metadata: dict = None):
     log_event(
@@ -63,3 +63,4 @@ def log_page_event(page_name: str, event_type: str, metadata: dict = None):
         event_type,
         metadata,
     )
+    return None

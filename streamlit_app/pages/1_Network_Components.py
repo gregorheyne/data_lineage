@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
-from app_state import load_network, init_session_state, require_auth, log_page_event
+from streamlit_app.utils.app_state import load_network, init_session_state, require_auth, log_page_event
 from data_lineage.lineage_network.network_filter import get_node_child_counts
 
 st.set_page_config(page_title="Network Components", layout="wide")
