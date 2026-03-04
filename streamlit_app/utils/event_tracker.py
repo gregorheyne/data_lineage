@@ -7,13 +7,49 @@ from streamlit_app.utils.db_connections import ensure_event_table_exists, get_py
 LOG_FILE = Path(__file__).parent.parent / "data" / "events.jsonl"
 
 
+def ensure_event_table_exists():
+    conn = get_pyodbc_connection()
+    cursor = conn.cursor()
+
+    schema_exists = cursor.execute(
+        "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?",
+        SCHEMA_NAME,
+    ).fetchone()
+    if not schema_exists:
+        cursor.execute(f"CREATE SCHEMA [{SCHEMA_NAME}]")
+        conn.commit()
+
+    table_exists = cursor.execute(
+        "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?",
+        SCHEMA_NAME,
+        TABLE_NAME,
+    ).fetchone()
+    if not table_exists:
+        cursor.execute(f"""
+            CREATE TABLE [{SCHEMA_NAME}].[{TABLE_NAME}] (
+                SESSION_ID  NVARCHAR(MAX),
+                TIMESTAMP   DATETIME2,
+                USER_ID     NVARCHAR(MAX),
+                PAGE_NAME   NVARCHAR(MAX),
+                EVENT_TYPE  NVARCHAR(MAX),
+                METADATA    NVARCHAR(MAX)
+            )
+        """)
+        conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return None
+
+
 def upload_event(event: dict):
     ensure_event_table_exists()
     conn = get_pyodbc_connection()
     cursor = conn.cursor()
     cursor.execute(
         f"INSERT INTO [{SCHEMA_NAME}].[{TABLE_NAME}]"
-        " (session_id, timestamp, user_id, page_name, event_type, metadata)"
+        " (SESSION_ID, TIMESTAMP, USER_ID, PAGE_NAME, EVENT_TYPE, METADATA)"
         " VALUES (?, ?, ?, ?, ?, ?)",
         event["session_id"],
         event["timestamp"],

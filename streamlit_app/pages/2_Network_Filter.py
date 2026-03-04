@@ -51,7 +51,7 @@ if st.button("Add nodes to filter", disabled=not selected_values):
     add_nodes_to_nx_filter(selected_attr, selected_values)
     st.session_state['applied_filters'].append((selected_attr, list(selected_values)))
     log_page_event(PAGE_NAME, "button_clicked", {
-        "button_name": "Add nodes to filter",
+        "button_name": "add_nodes_to_filter",
         "filter": {selected_attr: list(selected_values)},
     })
 
@@ -71,7 +71,7 @@ if st.button("Clear filters"):
     st.session_state.pop('descendant_level', None)
     st.session_state.pop('ancestor_level', None)
     log_page_event(PAGE_NAME, "button_clicked", {
-        "button_name": "Clear filters",
+        "button_name": "clear_filters",
     })
     st.rerun()
 
@@ -92,13 +92,13 @@ def fmt_level(x):
 
 def on_descendant_level_change():
     log_page_event(PAGE_NAME, "selectbox_clicked", {
-        "selectbox_name": "Descendant levels",
+        "selectbox_name": "descendant_levels",
         "value": st.session_state['descendant_level'],
     })
 
 def on_ancestor_level_change():
     log_page_event(PAGE_NAME, "selectbox_clicked", {
-        "selectbox_name": "Ancestor levels",
+        "selectbox_name": "ancestor_levels",
         "value": st.session_state['ancestor_level'],
     })
 
@@ -129,7 +129,7 @@ if not has_filters:
 else:
     if st.button("Generate plot"):
         log_page_event(PAGE_NAME, "button_clicked", {
-            "button_name": "Generate plot",
+            "button_name": "generate_plot",
         })
         with st.spinner("Generating plot..."):
             filtered_network = get_filtered_network(descendant_level, ancestor_level)

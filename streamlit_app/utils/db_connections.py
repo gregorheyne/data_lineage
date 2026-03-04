@@ -22,39 +22,3 @@ def get_pyodbc_connection() -> pyodbc.Connection:
         f"Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
     )
     return pyodbc.connect(connection_string)
-
-
-def ensure_event_table_exists():
-    conn = get_pyodbc_connection()
-    cursor = conn.cursor()
-
-    schema_exists = cursor.execute(
-        "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?",
-        SCHEMA_NAME,
-    ).fetchone()
-    if not schema_exists:
-        cursor.execute(f"CREATE SCHEMA [{SCHEMA_NAME}]")
-        conn.commit()
-
-    table_exists = cursor.execute(
-        "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?",
-        SCHEMA_NAME,
-        TABLE_NAME,
-    ).fetchone()
-    if not table_exists:
-        cursor.execute(f"""
-            CREATE TABLE [{SCHEMA_NAME}].[{TABLE_NAME}] (
-                session_id  NVARCHAR(MAX),
-                timestamp   DATETIME2,
-                user_id     NVARCHAR(MAX),
-                page_name   NVARCHAR(MAX),
-                event_type  NVARCHAR(MAX),
-                metadata    NVARCHAR(MAX)
-            )
-        """)
-        conn.commit()
-
-    cursor.close()
-    conn.close()
-
-    return None
