@@ -7,5 +7,6 @@ pip install pandas
 pip install PyYAML
 pip install pyodbc
 pip install networkx
+pip install pymssql
 pip install graphviz==0.21
 pip install sqlglot==27.29.0
