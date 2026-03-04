@@ -4,7 +4,6 @@ from streamlit_app.utils.app_state import init_session_state, require_auth, log_
 
 _spinner = show_page_spinner()
 
-st.set_page_config(page_title="Network Plot", layout="wide")
 
 require_auth()
 init_session_state()

@@ -6,7 +6,6 @@ from data_lineage.lineage_network.network_filter import get_node_child_counts
 
 _spinner = show_page_spinner()
 
-st.set_page_config(page_title="Network Components", layout="wide")
 
 require_auth()
 init_session_state()

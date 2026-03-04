@@ -17,7 +17,6 @@ from data_lineage.lineage_network.network_plot import (
 
 _spinner = show_page_spinner()
 
-st.set_page_config(page_title="Filter Network", layout="wide")
 
 require_auth()
 init_session_state()
