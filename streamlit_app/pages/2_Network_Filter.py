@@ -15,13 +15,13 @@ from data_lineage.lineage_network.network_plot import (
     wrap_svg_in_html,
 )
 
+_spinner = show_page_spinner()
+
 st.set_page_config(page_title="Filter Network", layout="wide")
 
-_spinner = show_page_spinner()
 require_auth()
 init_session_state()
 set_page_style()
-hide_page_spinner(_spinner)
 
 PAGE_NAME = "Filter Network"
 if st.session_state.get('_last_page') != PAGE_NAME:
@@ -141,3 +141,5 @@ else:
 
 if 'plot_html' in st.session_state:
     st.markdown("Plot also available on the **Network Plot** page.")
+
+hide_page_spinner(_spinner)
