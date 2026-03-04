@@ -37,7 +37,7 @@ def require_auth():
         if user:
             st.session_state['authenticated'] = True
             st.session_state['username'] = os_user
-            st.session_state['user_display_name'] = user['display_name']
+            st.session_state['user_display_name'] = os_user  # user['display_name']
         else:
             st.error(f"Access denied. OS user `{os_user}` is not in the allowlist.")
             st.stop()
