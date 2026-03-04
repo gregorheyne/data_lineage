@@ -8,9 +8,10 @@ import yaml
 import streamlit as st
 from streamlit_app.utils.app_state import init_session_state, require_auth, log_page_event, set_page_style, show_page_spinner, hide_page_spinner
 
+_spinner = show_page_spinner()
+
 st.set_page_config(page_title="Data Lineage Explorer", layout="wide")
 
-_spinner = show_page_spinner()
 require_auth()
 init_session_state()
 set_page_style()
@@ -19,7 +20,7 @@ set_page_style()
 _scope_yaml = Path(__file__).parent / "data" / "scope_data.yaml"
 with open(_scope_yaml) as f:
     scope_data = yaml.safe_load(f)
-hide_page_spinner(_spinner)
+
 
 PAGE_NAME = "Home"
 if st.session_state.get('_last_page') != PAGE_NAME:
@@ -61,3 +62,5 @@ st.markdown("""
 
 The rendered plot is displayed on the **Network Plot** page.
 """)
+
+hide_page_spinner(_spinner)
