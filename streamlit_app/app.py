@@ -4,7 +4,6 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))  # project root for data_lineage
-import pandas as pd
 import yaml
 import streamlit as st
 from streamlit_app.utils.app_state import init_session_state, require_auth, log_page_event, set_page_style, show_page_spinner, hide_page_spinner
@@ -19,7 +18,7 @@ set_page_style()
 # load scope data
 _scope_yaml = Path(__file__).parent / "data" / "scope_data.yaml"
 with open(_scope_yaml) as f:
-    scope_data = pd.DataFrame(yaml.safe_load(f))
+    scope_data = yaml.safe_load(f)
 hide_page_spinner(_spinner)
 
 PAGE_NAME = "Home"
