@@ -12,7 +12,7 @@ DB_CONFIG = {
 }
 
 
-def get_pyodbc_connection() -> pyodbc.Connection:
+def get_azure_db_connection() -> pyodbc.Connection:
     connection_string = (
         f"DRIVER={{{DB_CONFIG['driver']}}};"
         f"SERVER=tcp:{DB_CONFIG['server']};"

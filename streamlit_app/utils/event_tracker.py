@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from streamlit_app.utils.db_connections import get_pyodbc_connection, SCHEMA_NAME, TABLE_NAME
+from streamlit_app.utils.db_connections import get_azure_db_connection, SCHEMA_NAME, TABLE_NAME
 
 ENVIRONMENT = os.environ.get("APP_ENVIRONMENT", "dev")
 
@@ -11,7 +11,7 @@ LOG_FILE = Path(__file__).parent.parent / "data" / "events.jsonl"
 
 
 def ensure_event_table_exists():
-    conn = get_pyodbc_connection()
+    conn = get_azure_db_connection()
     cursor = conn.cursor()
 
     schema_exists = cursor.execute(
@@ -49,7 +49,7 @@ def ensure_event_table_exists():
 
 def upload_event(event: dict):
     ensure_event_table_exists()
-    conn = get_pyodbc_connection()
+    conn = get_azure_db_connection()
     cursor = conn.cursor()
     cursor.execute(
         f"INSERT INTO [{SCHEMA_NAME}].[{TABLE_NAME}]"
