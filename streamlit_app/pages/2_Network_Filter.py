@@ -41,12 +41,22 @@ col1, col2 = st.columns(2)
 with col1:
     selected_attr = st.selectbox("Node attribute", FILTERABLE_ATTRS)
 with col2:
-    unique_values = sorted({
-        str(node[selected_attr])
-        for node in nodes
-        if selected_attr in node
-    })
-    selected_values = st.multiselect("Attribute values", unique_values)
+    search_text = st.text_input("Search attribute values", placeholder="Type to filter…")
+
+unique_values = sorted({
+    str(node[selected_attr])
+    for node in nodes
+    if selected_attr in node
+})
+# st.multiselect's built-in search treats the input as a regex, so a literal dot (e.g. "OUR.VA")
+# matches any character and produces false positives. Instead, we pre-filter the options here
+# using plain substring matching and pass the result to multiselect with search disabled.
+if search_text:
+    filtered_options = [v for v in unique_values if search_text.lower() in v.lower()]
+else:
+    filtered_options = unique_values
+
+selected_values = st.multiselect("Attribute values", filtered_options)
 
 if st.button("Add nodes to filter", disabled=not selected_values):
     add_nodes_to_nx_filter(selected_attr, selected_values)
