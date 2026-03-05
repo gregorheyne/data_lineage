@@ -18,12 +18,14 @@ def add_graphviz_meta_to_io_network(network):
         node['tooltip'] = node['name']
 
         # set layer
-        assert node['origin'] in ['io_logs_py', 'pbi_sources'], 'node with invalid node origin'
-        if node['origin'] == 'io_logs_py':
+        assert node['source_type'] in ['io_logs_py', 'PBI', 'db_views_definitions', 'sql_script'], 'node with invalid node source_type'
+        if node['source_type'] == 'io_logs_py':
             if 'io_context' in node:
                 node['layer'] = (node['io_context'].split('io_ctx_id')[0]).lower()[:-1] + ' (' + node['module'] + ')'
-        elif node['origin'] == 'pbi_sources':
-            node['layer'] = f"PBI Sources ({node['pbi_name']})"
+        elif node['source_type'] == 'PBI':
+            node['layer'] = f"PBI ({node['pbi_name']})"
+        elif node['source_type'] in ['db_views_definitions', 'sql_script']:
+            node['layer'] = f"schema_({node['module']})"
 
         # set display name, shape and style
         node_type = node['type']

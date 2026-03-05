@@ -3,64 +3,64 @@ n1:
   type: py_node
   module: test_module
   io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
-  origin: io_logs_py
+  source_type: io_logs_py
 n3:
   name: /USERS/GREGORHEYNE/DOCUMENTS/CODING/DATA_LINEAGE/TESTS/IO_TESTS_DATA/SAMPLE_DATA.PKL
   type: file
   module: test_module
   io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
-  origin: io_logs_py
+  source_type: io_logs_py
 n4:
   name: RANDOM_DATA
   type: db_object
   module: test_module
   io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
-  origin: io_logs_py
+  source_type: io_logs_py
 n5:
   name: TEST_MODULE (SECONDARY_TESTS-IO_CTX_ID-BB05E029-AAB9-461A-8176-9D970BB34A2E)
   type: py_node
   module: test_module
   io_context: secondary_tests-io_ctx_id-bb05e029-aab9-461a-8176-9d970bb34a2e
-  origin: io_logs_py
+  source_type: io_logs_py
 n6:
   name: RANDOM_DATA_SECONDARY
   type: db_object
   module: test_module
   io_context: secondary_tests-io_ctx_id-bb05e029-aab9-461a-8176-9d970bb34a2e
-  origin: io_logs_py
+  source_type: io_logs_py
 n7:
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/PROMOTION.CSV
   type: file
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
 n8:
   name: PSEUDO_PBIP.PBIP
   type: pbi
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
 n9:
   name: SCHEMA_NAME.VIEW_OR_TABLE_NAME
   type: db_object
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
 n10:
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA" & SOME_EXPRESSION_INSTANCE & "/PROMOTION.XLSX
   type: file
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
 n11:
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/PROMOTION.XLSX
   type: file
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
 n12:
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/CONSUMER_IN_EXPRESSIONS.XLSX
   type: file
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip

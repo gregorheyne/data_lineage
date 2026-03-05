@@ -4,7 +4,7 @@ nodes:
   type: py_node
   module: test_module
   io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
-  origin: io_logs_py
+  source_type: io_logs_py
   tooltip: TEST_MODULE (PRIMARY_TESTS-IO_CTX_ID-ABB61632-9EBD-4C49-9647-5124D65491FC)
   layer: primary_tests (test_module)
   display_name: py
@@ -16,7 +16,7 @@ nodes:
   type: file
   module: test_module
   io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
-  origin: io_logs_py
+  source_type: io_logs_py
   tooltip: /USERS/GREGORHEYNE/DOCUMENTS/CODING/DATA_LINEAGE/TESTS/IO_TESTS_DATA/SAMPLE_DATA.PKL
   layer: primary_tests (test_module)
   display_name: SAMPLE_DATA.PKL
@@ -28,7 +28,7 @@ nodes:
   type: db_object
   module: test_module
   io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
-  origin: io_logs_py
+  source_type: io_logs_py
   tooltip: RANDOM_DATA
   layer: primary_tests (test_module)
   display_name: RANDOM_DATA
@@ -40,7 +40,7 @@ nodes:
   type: py_node
   module: test_module
   io_context: secondary_tests-io_ctx_id-bb05e029-aab9-461a-8176-9d970bb34a2e
-  origin: io_logs_py
+  source_type: io_logs_py
   tooltip: TEST_MODULE (SECONDARY_TESTS-IO_CTX_ID-BB05E029-AAB9-461A-8176-9D970BB34A2E)
   layer: secondary_tests (test_module)
   display_name: py
@@ -52,7 +52,7 @@ nodes:
   type: db_object
   module: test_module
   io_context: secondary_tests-io_ctx_id-bb05e029-aab9-461a-8176-9d970bb34a2e
-  origin: io_logs_py
+  source_type: io_logs_py
   tooltip: RANDOM_DATA_SECONDARY
   layer: secondary_tests (test_module)
   display_name: RANDOM_DATA_SECONDARY
@@ -62,11 +62,11 @@ nodes:
 - id: n7
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/PROMOTION.CSV
   type: file
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
   tooltip: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/PROMOTION.CSV
-  layer: PBI Sources (pseudo_pbip.pbip)
+  layer: PBI (pseudo_pbip.pbip)
   display_name: PROMOTION.CSV
   shape: folder
   style: rounded,filled,dashed
@@ -74,11 +74,11 @@ nodes:
 - id: n8
   name: PSEUDO_PBIP.PBIP
   type: pbi
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
   tooltip: PSEUDO_PBIP.PBIP
-  layer: PBI Sources (pseudo_pbip.pbip)
+  layer: PBI (pseudo_pbip.pbip)
   display_name: PSEUDO_PBIP.PBIP
   shape: doubleoctagon
   style: filled
@@ -86,11 +86,11 @@ nodes:
 - id: n9
   name: SCHEMA_NAME.VIEW_OR_TABLE_NAME
   type: db_object
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
   tooltip: SCHEMA_NAME.VIEW_OR_TABLE_NAME
-  layer: PBI Sources (pseudo_pbip.pbip)
+  layer: PBI (pseudo_pbip.pbip)
   display_name: SCHEMA_NAME.VIEW_OR_TABLE_NAME
   shape: box
   style: rounded,filled
@@ -98,11 +98,11 @@ nodes:
 - id: n10
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA" & SOME_EXPRESSION_INSTANCE & "/PROMOTION.XLSX
   type: file
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
   tooltip: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA" & SOME_EXPRESSION_INSTANCE & "/PROMOTION.XLSX
-  layer: PBI Sources (pseudo_pbip.pbip)
+  layer: PBI (pseudo_pbip.pbip)
   display_name: PROMOTION.XLSX
   shape: folder
   style: rounded,filled,dashed
@@ -110,11 +110,11 @@ nodes:
 - id: n11
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/PROMOTION.XLSX
   type: file
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
   tooltip: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/PROMOTION.XLSX
-  layer: PBI Sources (pseudo_pbip.pbip)
+  layer: PBI (pseudo_pbip.pbip)
   display_name: PROMOTION.XLSX
   shape: folder
   style: rounded,filled,dashed
@@ -122,11 +122,11 @@ nodes:
 - id: n12
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/CONSUMER_IN_EXPRESSIONS.XLSX
   type: file
-  origin: pbi_sources
+  source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
   tooltip: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/CONSUMER_IN_EXPRESSIONS.XLSX
-  layer: PBI Sources (pseudo_pbip.pbip)
+  layer: PBI (pseudo_pbip.pbip)
   display_name: CONSUMER_IN_EXPRESSIONS.XLSX
   shape: folder
   style: rounded,filled,dashed

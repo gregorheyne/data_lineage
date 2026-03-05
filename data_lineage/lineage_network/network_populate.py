@@ -14,8 +14,8 @@ def process_io_logs_df(
     df_io_logs['module_GROUP'] = df_io_logs.groupby(groupby_cols).transform('ngroup') + 1
     # set a python node based on module and io_context
     df_io_logs['PYTHON_NODE_NAME'] = df_io_logs['module'] + ' (' + df_io_logs['io_context'] + ')'
-    # set an origin column that can be used later for defining layers in plotting
-    df_io_logs['origin'] = 'io_logs_py'
+    # set an source_type column that can be used later for defining layers in plotting
+    df_io_logs['source_type'] = 'io_logs_py'
 
     if str_required_in_caller_one_file:
         # str_required_in_caller_one_file = 'Documents/coding/transfer/data_architecture'
@@ -41,7 +41,7 @@ def add_io_logs_to_network(df_io_logs):
     #  - for db io actions, resolve lineage from query 
     # - and populate nodes dict including type info
     io_records = df_io_logs.to_dict(orient='records')
-    meta_attributes_for_nodes = ['io_context', 'module', 'origin']
+    meta_attributes_for_nodes = ['io_context', 'module', 'source_type']
     treated_io_types = set()
     for record in io_records:
         # record = io_records[0]
@@ -134,8 +134,8 @@ def add_pbip_sources_to_network(path_to_pbip_file, pbip_sources):
         # pbip_source = pbip_sources[0]
         src = pbip_source['name']
         tgt = pbi_name
-        register_node(src, pbip_source['type'], meta_dict={'origin': 'pbi_sources', 'pbi_name': pbi_name, 'module': pbi_name})
-        register_node(tgt, 'pbi', meta_dict={'origin': 'pbi_sources', 'pbi_name': pbi_name, 'module': pbi_name})
+        register_node(src, pbip_source['type'], meta_dict={'source_type': 'PBI', 'pbi_name': pbi_name, 'module': pbi_name})
+        register_node(tgt, 'pbi', meta_dict={'source_type': 'PBI', 'pbi_name': pbi_name, 'module': pbi_name})
         register_edge(src, tgt, 'to_pbi_node')
 
     return None

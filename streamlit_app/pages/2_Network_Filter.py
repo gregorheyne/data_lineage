@@ -35,7 +35,7 @@ st.title("Filter Network")
 # ── Node filter ───────────────────────────────────────────────────────────────
 st.subheader("Select nodes")
 
-FILTERABLE_ATTRS = ['module', 'display_name', 'origin', 'pbi_name']
+FILTERABLE_ATTRS = ['source_type', 'module', 'display_name', 'pbi_name']
 
 col1, col2 = st.columns(2)
 with col1:

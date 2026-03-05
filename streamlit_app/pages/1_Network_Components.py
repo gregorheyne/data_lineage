@@ -33,7 +33,7 @@ nodes_rows = [
         'type': n.get('type', ''),
         'module': n.get('module', ''),
         'count_children': child_counts.get(n['id'], 0),
-        'origin': n.get('origin', ''),
+        'source_type': n.get('source_type', ''),
         'io_context': n.get('io_context', ''),
     }
     for n in nodes
