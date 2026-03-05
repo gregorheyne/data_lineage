@@ -23,8 +23,9 @@ path_to_pbip_file = paths_to_pbips[0]
 pbip_sources = get_pbip_sources(paths_to_pbips[0])
 # some hack for testing
 for i, pbip_source in enumerate(pbip_sources):
-    if pbip_source == {'type': 'db_object', 'name': 'sqllite_schema.Random_data_secondary'}:
-        pbip_sources[i] = {'type': 'db_object', 'name': 'Random_data_secondary'}
+    if pbip_source == {'type': 'db_object', 'name': 'sqllite_schema.Random_data_secondary',  'schema': 'sqllite_schema'}:
+        print(pbip_source)
+        pbip_sources[i] = {'type': 'db_object', 'name': 'Random_data_secondary',  'schema': 'sqllite_schema'}
 add_pbip_sources_to_network(paths_to_pbips[0], pbip_sources)
 
 remove_nodes_from_network(['SamPle_data.CSV'])

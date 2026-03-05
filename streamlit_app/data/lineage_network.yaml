@@ -89,6 +89,7 @@ nodes:
   source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
+  schema: schema_name
   tooltip: SCHEMA_NAME.VIEW_OR_TABLE_NAME
   layer: PBI (pseudo_pbip.pbip)
   display_name: SCHEMA_NAME.VIEW_OR_TABLE_NAME

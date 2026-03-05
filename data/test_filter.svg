@@ -20,9 +20,9 @@
 <text xml:space="preserve" text-anchor="middle" x="676.9" y="-63.7" font-family="Times,serif" font-size="14.00">secondary_tests (test_module)</text>
 </g>
 <g id="clust3" class="cluster">
-<title>cluster_PBI Sources (pseudo_pbip.pbip)</title>
+<title>cluster_PBI (pseudo_pbip.pbip)</title>
 <polygon fill="lightgray" stroke="lightgray" points="873.51,-8 873.51,-85 1088.21,-85 1088.21,-8 873.51,-8"/>
-<text xml:space="preserve" text-anchor="middle" x="980.86" y="-67.7" font-family="Times,serif" font-size="14.00">PBI Sources (pseudo_pbip.pbip)</text>
+<text xml:space="preserve" text-anchor="middle" x="980.86" y="-67.7" font-family="Times,serif" font-size="14.00">PBI (pseudo_pbip.pbip)</text>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_legend</title>

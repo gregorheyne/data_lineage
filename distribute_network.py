@@ -35,12 +35,13 @@ write_yaml(network, dir_st_app_data / f'lineage_network.yaml')
 register_network_as_nx(network)
 add_nodes_to_nx_filter('name', ['RANDOM_DATA_SECONDARY'])
 sub_network = get_filtered_network(descendant_level=1, ancestor_level='max')
+fn_base = 'test_filter'
 
-
+# sub_network = network
+# fn_base = 'lineage_plot'
 
 # draw the plots
 dir_data = Path('data/')
-fn_base = 'test_filter'
 svg_bytes = draw_lineage_plot(
     sub_network,
     layer_order=layer_order,

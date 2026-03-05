@@ -46,6 +46,7 @@ n9:
   source_type: PBI
   pbi_name: pseudo_pbip.pbip
   module: pseudo_pbip.pbip
+  schema: schema_name
 n10:
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA" & SOME_EXPRESSION_INSTANCE & "/PROMOTION.XLSX
   type: file
