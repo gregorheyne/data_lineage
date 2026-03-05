@@ -315,7 +315,10 @@ def get_pbip_sources(path_to_pbip_file, logger=None):
             if 'schema_items' in tmdl_table_source['details']:
                 for schema_pair in tmdl_table_source['details']['schema_items']:
                     # schema_pair = tmdl_table_source['details']['schema_items'][0]
-                    pbi_source = {'type': 'db_object', 'name': schema_pair['schema'] + '.' + schema_pair['item']}
+                    pbi_source = {
+                        'type': 'db_object',
+                        'name': schema_pair['schema'] + '.' + schema_pair['item'],
+                        'schema': schema_pair['schema']}
                     if pbi_source not in pbi_sources:
                         pbi_sources.append(pbi_source)
     for expression in expressions:
@@ -328,7 +331,10 @@ def get_pbip_sources(path_to_pbip_file, logger=None):
         if 'schema_items' in expression.keys():
             for schema_pair in expression['schema_items']:
                 # schema_pair = tmdl_table_source['details']['schema_items'][0]
-                pbi_source = {'type': 'db_object', 'name': schema_pair['schema'] + '.' + schema_pair['item']}
+                pbi_source = {
+                    'type': 'db_object',
+                    'name': schema_pair['schema'] + '.' + schema_pair['item'],
+                    'schema': schema_pair['schema']}
                 if pbi_source not in pbi_sources:
                     pbi_sources.append(pbi_source)
 
