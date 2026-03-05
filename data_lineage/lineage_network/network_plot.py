@@ -119,8 +119,7 @@ def attributes_to_upper_case(network, attributes):
         for attribute in attributes:
             if attribute in node:
                 node[attribute] = node[attribute].upper()
-
-    return
+    return None
 
 
 def draw_lineage_plot(
