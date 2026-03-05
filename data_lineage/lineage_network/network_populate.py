@@ -72,8 +72,8 @@ def add_io_logs_to_network(df_io_logs):
             tgt = record['PYTHON_NODE_NAME']
             register_node(tgt, 'py_node', meta_dict=record_meta_dict)
             for src in srcs:
-                register_node(src, 'db_object', meta_dict=record_meta_dict)
-                register_edge(src, tgt, 'to_py_node')
+                register_node(src['combined_name'], 'db_object', meta_dict=record_meta_dict)
+                register_edge(src['combined_name'], tgt, 'to_py_node')
             treated_io_types = treated_io_types.union(db_read_actions)
         if record['action'] in db_cursor_actions:
             record_meta_dict = {key: record[key] for key in record.keys() if key in meta_attributes_for_nodes}
@@ -97,8 +97,8 @@ def add_io_logs_to_network(df_io_logs):
                 tgt = record['PYTHON_NODE_NAME']
                 register_node(tgt, 'py_node', meta_dict=record_meta_dict)
                 for src in sources:
-                    register_node(src, 'db_object', meta_dict=record_meta_dict)
-                    register_edge(src, tgt, 'to_py_node')
+                    register_node(src['combined_name'], 'db_object', meta_dict=record_meta_dict)
+                    register_edge(src['combined_name'], tgt, 'to_py_node')
             if query_classification == 'data_upload':
                 # check that sources in query lineage is empty
                 assert not sources, 'found sources in data upload query'
@@ -106,20 +106,20 @@ def add_io_logs_to_network(df_io_logs):
                 src = record['PYTHON_NODE_NAME']
                 register_node(src, 'py_node', meta_dict=record_meta_dict)
                 for tgt in targets:
-                    register_node(tgt, 'db_object', meta_dict=record_meta_dict)
-                    register_edge(src, tgt, 'from_py_node')
+                    register_node(tgt['combined_name'], 'db_object', meta_dict=record_meta_dict)
+                    register_edge(src, tgt['combined_name'], 'from_py_node')
             if query_classification == 'object_modification':
                 if sources and targets:
                     for src in sources:
                         for tgt in targets:
-                            register_node(src, 'db_object', meta_dict=record_meta_dict)
-                            register_node(tgt, 'db_object', meta_dict=record_meta_dict)
-                            register_edge(src, tgt, 'db_native')
+                            register_node(src['combined_name'], 'db_object', meta_dict=record_meta_dict)
+                            register_node(tgt['combined_name'], 'db_object', meta_dict=record_meta_dict)
+                            register_edge(src['combined_name'], tgt['combined_name'], 'db_native')
                 if sources and not targets:
                     assert 1==2, 'detected object_modification query without targets'
                 if not sources and targets:
                     for tgt in targets:
-                        register_node(tgt, 'db_object', meta_dict=record_meta_dict)
+                        register_node(tgt['combined_name'], 'db_object', meta_dict=record_meta_dict)
             treated_io_types = treated_io_types.union(db_cursor_actions)
     assert actions_in_io_logs.difference(treated_io_types) == set(), 'detected io action without node/edge mapping'
 

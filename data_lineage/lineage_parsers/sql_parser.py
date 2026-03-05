@@ -41,8 +41,8 @@ def resolve_sql_lineage(sql: str, dialect: str = "tsql"):
     sources = _get_sources(tree, cte_names, targets)
 
     return {
-        "sources": sorted(sources),
-        "targets": sorted(targets),
+        "sources": [_string_to_dict(s) for s in sorted(sources)],
+        "targets": [_string_to_dict(t) for t in sorted(targets)],
     }
 
 
@@ -153,6 +153,16 @@ def _preprocess_db2_sql(sql: str) -> str:
     sql = re.sub(r'\bCURRENT\s+TIMESTAMP\b', 'CURRENT_TIMESTAMP', sql, flags=re.IGNORECASE)
     
     return sql
+
+
+def _string_to_dict(s: str) -> dict:
+    parts = s.split(".")
+    if len(parts) == 1:
+        return {"relation": parts[0], "combined_name": s}
+    elif len(parts) == 2:
+        return {"schema": parts[0], "relation": parts[1], "combined_name": s}
+    else:  # exactly 3: catalog.schema.table
+        return {"db": parts[0], "schema": parts[1], "relation": parts[2], "combined_name": s}
 
 
 def _get_cte_names(tree) -> set:

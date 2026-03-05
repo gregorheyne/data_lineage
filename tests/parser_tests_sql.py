@@ -9,8 +9,10 @@ def test_resolve_sql_lineage(sql, expected):
 
     results = resolve_sql_lineage(sql)
     print(f'test sql: {sql}')
-    assert set(results['sources']) == set(expected['sources']), f"Expected {expected['sources']}, got {results['sources']}"
-    assert set(results['targets']) == set(expected['targets']), f"Expected {expected['targets']}, got {results['targets']}"
+    result_sources = {d["combined_name"] for d in results["sources"]}
+    result_targets = {d["combined_name"] for d in results["targets"]}
+    assert result_sources == set(expected['sources']), f"Expected {expected['sources']}, got {results['sources']}"
+    assert result_targets == set(expected['targets']), f"Expected {expected['targets']}, got {results['targets']}"
     print('passed!')
 
     return None
