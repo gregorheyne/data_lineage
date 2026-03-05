@@ -1,3 +1,6 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))  # project root for data_lineage
 from data_lineage.lineage_parsers.sql_parser import resolve_sql_lineage
 from data_lineage.lineage_parsers.sql_parser import classify_sql
 
