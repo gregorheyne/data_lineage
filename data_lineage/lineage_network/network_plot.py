@@ -111,6 +111,18 @@ def set_node_colors(network):
 
     return None
 
+def attributes_to_upper_case(network, attributes):
+    
+    # attributes = ['name', 'module', 'schema', 'display_name']
+
+    for node in network['nodes']:
+        for attribute in attributes:
+            if attribute in node:
+                node[attribute] = node[attribute].upper()
+
+    return
+
+
 def draw_lineage_plot(
         network,
         layer_order=None,

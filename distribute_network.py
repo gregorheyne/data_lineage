@@ -7,6 +7,7 @@ from data_lineage.lineage_network.network_filter import get_filtered_network
 from data_lineage.lineage_network.network_plot import add_graphviz_meta_to_io_network
 from data_lineage.lineage_network.network_plot import get_implied_layer_order
 from data_lineage.lineage_network.network_plot import set_node_colors
+from data_lineage.lineage_network.network_plot import attributes_to_upper_case
 from data_lineage.lineage_network.network_plot import draw_lineage_plot
 from data_lineage.lineage_network.network_plot import clean_graphviz_svg
 from data_lineage.lineage_network.network_plot import wrap_svg_in_html
@@ -25,6 +26,8 @@ network = get_network_copy()
 add_graphviz_meta_to_io_network(network)
 layer_order = get_implied_layer_order(network)
 set_node_colors(network)
+attributes_to_upper_case(network, ['name', 'module', 'schema', 'display_name'])
+
 
 dir_st_app_data = Path('streamlit_app/data/')
 dir_st_app_data.mkdir(parents=True, exist_ok=True)

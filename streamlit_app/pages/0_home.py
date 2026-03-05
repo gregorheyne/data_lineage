@@ -48,7 +48,7 @@ st.markdown("""
 
 ### How to use the Network Filter page
 
-1. Select a **node attribute** (`module`, `display_name`, `source_type`, `pbi_name`) from the dropdown.
+1. Select a **node attribute** (`schema`, `module`, `display_name`, `pbi_name`) from the dropdown.
 2. Select one or more **attribute values** to seed the filter.
 3. Click **Add nodes to filter** — repeat steps 1–3 to accumulate multiple filter conditions.
 4. Optionally set **descendant** and/or **ancestor** expansion levels to include neighbouring nodes.
