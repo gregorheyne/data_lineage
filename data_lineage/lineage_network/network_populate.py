@@ -134,7 +134,12 @@ def add_pbip_sources_to_network(path_to_pbip_file, pbip_sources):
         # pbip_source = pbip_sources[0]
         src = pbip_source['name']
         tgt = pbi_name
-        register_node(src, pbip_source['type'], meta_dict={'source_type': 'PBI', 'pbi_name': pbi_name, 'module': pbi_name})
+
+        src_meta_dict = {'source_type': 'PBI', 'pbi_name': pbi_name, 'module': pbi_name}
+        if (pbip_source['type'] == 'db_object') and pbip_source['schema']:
+            src_meta_dict = src_meta_dict | {'schema': pbip_source['schema']}
+
+        register_node(src, pbip_source['type'], meta_dict=src_meta_dict)
         register_node(tgt, 'pbi', meta_dict={'source_type': 'PBI', 'pbi_name': pbi_name, 'module': pbi_name})
         register_edge(src, tgt, 'to_pbi_node')
 
