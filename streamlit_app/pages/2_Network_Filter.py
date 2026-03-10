@@ -8,6 +8,7 @@ from data_lineage.lineage_network.network_filter import (
     max_path_length,
     register_network_as_nx,
     get_filtered_network,
+    get_subgraph_nodes,
 )
 from data_lineage.lineage_network.network_plot import (
     draw_lineage_plot,
@@ -136,7 +137,8 @@ has_filters = bool(filtered_nodes)
 if not has_filters:
     st.info("Add at least one filter before generating the plot.")
 else:
-    if st.button("Generate plot"):
+    n_nodes = len(get_subgraph_nodes(descendant_level, ancestor_level))
+    if st.button(f"Generate plot ({n_nodes} nodes)"):
         log_page_event(PAGE_NAME, "button_clicked", {
             "button_name": "generate_plot",
         })

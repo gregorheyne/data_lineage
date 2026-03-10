@@ -88,7 +88,7 @@ def add_nodes_to_nx_filter(attribute: str, values: list):
         filtered_nodes.add(node)
     return None
 
-def get_filtered_network(descendant_level=None, ancestor_level=None):
+def get_subgraph_nodes(descendant_level=None, ancestor_level=None):
 
     # descendant_level = 1
     # ancestor_level = 'max'
@@ -108,6 +108,12 @@ def get_filtered_network(descendant_level=None, ancestor_level=None):
 
     # combine all relevant nodes
     subgraph_nodes = filtered_nodes.union(descendants).union(ancestors)
+
+    return subgraph_nodes
+
+def get_filtered_network(descendant_level=None, ancestor_level=None):
+
+    subgraph_nodes = get_subgraph_nodes(descendant_level=descendant_level, ancestor_level=ancestor_level)
     
     # build subgraph
     subG = G.subgraph(subgraph_nodes).copy()
