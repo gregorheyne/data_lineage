@@ -49,18 +49,22 @@ with col2:
     selected_values = st.multiselect("Attribute values", unique_values)
 
 if st.button("Add nodes to filter", disabled=not selected_values):
-    add_nodes_to_nx_filter(selected_attr, selected_values)
-    st.session_state['applied_filters'].append((selected_attr, list(selected_values)))
-    log_page_event(PAGE_NAME, "button_clicked", {
-        "button_name": "add_nodes_to_filter",
-        "filter": {selected_attr: list(selected_values)},
-    })
+    new_filter = (selected_attr, list(selected_values))
+    if new_filter not in st.session_state['applied_filters']:
+        add_nodes_to_nx_filter(selected_attr, selected_values)
+        st.session_state['applied_filters'].append(new_filter)
+        log_page_event(PAGE_NAME, "button_clicked", {
+            "button_name": "add_nodes_to_filter",
+            "filter": {selected_attr: list(selected_values)},
+        })
 
 # Show accumulated filters
 if st.session_state.get('applied_filters'):
     st.markdown("**Active filters:**")
-    for attr, vals in st.session_state['applied_filters']:
-        st.markdown(f"- `{attr}` in `{vals}`")
+    filters = st.session_state['applied_filters']
+    for i, (attr, vals) in enumerate(filters):
+        suffix = " &nbsp;**OR**" if i < len(filters) - 1 else ""
+        st.markdown(f"- `{attr}` in `{vals}`{suffix}")
 else:
     st.info("No filters added yet. Select an attribute and values above, then click **Add nodes to filter**.")
 
