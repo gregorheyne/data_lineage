@@ -1,65 +1,5 @@
 nodes:
 - id: n1
-  name: TEST_MODULE (PRIMARY_TESTS-IO_CTX_ID-ABB61632-9EBD-4C49-9647-5124D65491FC)
-  type: py_node
-  module: TEST_MODULE
-  io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
-  source_type: io_logs_py
-  tooltip: TEST_MODULE (PRIMARY_TESTS-IO_CTX_ID-ABB61632-9EBD-4C49-9647-5124D65491FC)
-  layer: primary_tests (test_module)
-  display_name: PY
-  shape: diamond
-  style: filled
-  color: lightblue
-- id: n3
-  name: /USERS/GREGORHEYNE/DOCUMENTS/CODING/DATA_LINEAGE/TESTS/IO_TESTS_DATA/SAMPLE_DATA.PKL
-  type: file
-  module: TEST_MODULE
-  io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
-  source_type: io_logs_py
-  tooltip: /USERS/GREGORHEYNE/DOCUMENTS/CODING/DATA_LINEAGE/TESTS/IO_TESTS_DATA/SAMPLE_DATA.PKL
-  layer: primary_tests (test_module)
-  display_name: SAMPLE_DATA.PKL
-  shape: folder
-  style: rounded,filled,dashed
-  color: lightblue
-- id: n4
-  name: RANDOM_DATA
-  type: db_object
-  module: TEST_MODULE
-  io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
-  source_type: io_logs_py
-  tooltip: RANDOM_DATA
-  layer: primary_tests (test_module)
-  display_name: RANDOM_DATA
-  shape: box
-  style: rounded,filled
-  color: lightblue
-- id: n5
-  name: TEST_MODULE (SECONDARY_TESTS-IO_CTX_ID-BB05E029-AAB9-461A-8176-9D970BB34A2E)
-  type: py_node
-  module: TEST_MODULE
-  io_context: secondary_tests-io_ctx_id-bb05e029-aab9-461a-8176-9d970bb34a2e
-  source_type: io_logs_py
-  tooltip: TEST_MODULE (SECONDARY_TESTS-IO_CTX_ID-BB05E029-AAB9-461A-8176-9D970BB34A2E)
-  layer: secondary_tests (test_module)
-  display_name: PY
-  shape: diamond
-  style: filled
-  color: lightyellow
-- id: n6
-  name: RANDOM_DATA_SECONDARY
-  type: db_object
-  module: TEST_MODULE
-  io_context: secondary_tests-io_ctx_id-bb05e029-aab9-461a-8176-9d970bb34a2e
-  source_type: io_logs_py
-  tooltip: RANDOM_DATA_SECONDARY
-  layer: secondary_tests (test_module)
-  display_name: RANDOM_DATA_SECONDARY
-  shape: box
-  style: rounded,filled
-  color: lightyellow
-- id: n7
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/PROMOTION.CSV
   type: file
   source_type: PBI
@@ -70,8 +10,8 @@ nodes:
   display_name: PROMOTION.CSV
   shape: folder
   style: rounded,filled,dashed
-  color: lightgreen
-- id: n8
+  color: lightblue
+- id: n2
   name: PSEUDO_PBIP.PBIP
   type: pbi
   source_type: PBI
@@ -82,8 +22,8 @@ nodes:
   display_name: PSEUDO_PBIP.PBIP
   shape: doubleoctagon
   style: filled
-  color: lightgreen
-- id: n9
+  color: lightblue
+- id: n3
   name: SCHEMA_NAME.VIEW_OR_TABLE_NAME
   type: db_object
   source_type: PBI
@@ -95,8 +35,8 @@ nodes:
   display_name: SCHEMA_NAME.VIEW_OR_TABLE_NAME
   shape: box
   style: rounded,filled
-  color: lightgreen
-- id: n10
+  color: lightblue
+- id: n4
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA" & SOME_EXPRESSION_INSTANCE & "/PROMOTION.XLSX
   type: file
   source_type: PBI
@@ -107,8 +47,21 @@ nodes:
   display_name: PROMOTION.XLSX
   shape: folder
   style: rounded,filled,dashed
-  color: lightgreen
-- id: n11
+  color: lightblue
+- id: n5
+  name: RANDOM_DATA_SECONDARY
+  type: db_object
+  source_type: PBI
+  pbi_name: pseudo_pbip.pbip
+  module: PSEUDO_PBIP.PBIP
+  schema: SQLLITE_SCHEMA
+  tooltip: RANDOM_DATA_SECONDARY
+  layer: PBI (pseudo_pbip.pbip)
+  display_name: RANDOM_DATA_SECONDARY
+  shape: box
+  style: rounded,filled
+  color: lightblue
+- id: n6
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/PROMOTION.XLSX
   type: file
   source_type: PBI
@@ -119,8 +72,8 @@ nodes:
   display_name: PROMOTION.XLSX
   shape: folder
   style: rounded,filled,dashed
-  color: lightgreen
-- id: n12
+  color: lightblue
+- id: n7
   name: PBI-TOOLS/CONTOSO-SALES-MODEL/MAIN/DATA/CONSUMER_IN_EXPRESSIONS.XLSX
   type: file
   source_type: PBI
@@ -131,48 +84,96 @@ nodes:
   display_name: CONSUMER_IN_EXPRESSIONS.XLSX
   shape: folder
   style: rounded,filled,dashed
+  color: lightblue
+- id: n8
+  name: TEST_MODULE (PRIMARY_TESTS-IO_CTX_ID-ABB61632-9EBD-4C49-9647-5124D65491FC)
+  type: py_node
+  module: TEST_MODULE
+  io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
+  source_type: io_logs_py
+  tooltip: TEST_MODULE (PRIMARY_TESTS-IO_CTX_ID-ABB61632-9EBD-4C49-9647-5124D65491FC)
+  layer: primary_tests (test_module)
+  display_name: PY
+  shape: diamond
+  style: filled
+  color: lightyellow
+- id: n10
+  name: /USERS/GREGORHEYNE/DOCUMENTS/CODING/DATA_LINEAGE/TESTS/IO_TESTS_DATA/SAMPLE_DATA.PKL
+  type: file
+  module: TEST_MODULE
+  io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
+  source_type: io_logs_py
+  tooltip: /USERS/GREGORHEYNE/DOCUMENTS/CODING/DATA_LINEAGE/TESTS/IO_TESTS_DATA/SAMPLE_DATA.PKL
+  layer: primary_tests (test_module)
+  display_name: SAMPLE_DATA.PKL
+  shape: folder
+  style: rounded,filled,dashed
+  color: lightyellow
+- id: n11
+  name: RANDOM_DATA
+  type: db_object
+  module: TEST_MODULE
+  io_context: primary_tests-io_ctx_id-abb61632-9ebd-4c49-9647-5124d65491fc
+  source_type: io_logs_py
+  tooltip: RANDOM_DATA
+  layer: primary_tests (test_module)
+  display_name: RANDOM_DATA
+  shape: box
+  style: rounded,filled
+  color: lightyellow
+- id: n12
+  name: TEST_MODULE (SECONDARY_TESTS-IO_CTX_ID-BB05E029-AAB9-461A-8176-9D970BB34A2E)
+  type: py_node
+  module: TEST_MODULE
+  io_context: secondary_tests-io_ctx_id-bb05e029-aab9-461a-8176-9d970bb34a2e
+  source_type: io_logs_py
+  tooltip: TEST_MODULE (SECONDARY_TESTS-IO_CTX_ID-BB05E029-AAB9-461A-8176-9D970BB34A2E)
+  layer: secondary_tests (test_module)
+  display_name: PY
+  shape: diamond
+  style: filled
   color: lightgreen
 edges:
 - src_id: n1
-  tgt_id: n3
-  type: from_py_node
+  tgt_id: n2
+  type: to_pbi_node
   style: dashed
 - src_id: n3
-  tgt_id: n1
-  type: to_py_node
-  style: dashed
+  tgt_id: n2
+  type: to_pbi_node
 - src_id: n4
-  tgt_id: n1
-  type: to_py_node
-- src_id: n3
-  tgt_id: n5
-  type: to_py_node
+  tgt_id: n2
+  type: to_pbi_node
   style: dashed
 - src_id: n5
-  tgt_id: n6
-  type: from_py_node
+  tgt_id: n2
+  type: to_pbi_node
 - src_id: n6
-  tgt_id: n5
-  type: to_py_node
-- src_id: n7
-  tgt_id: n8
+  tgt_id: n2
   type: to_pbi_node
   style: dashed
-- src_id: n9
-  tgt_id: n8
+- src_id: n7
+  tgt_id: n2
   type: to_pbi_node
+  style: dashed
+- src_id: n8
+  tgt_id: n10
+  type: from_py_node
+  style: dashed
 - src_id: n10
   tgt_id: n8
-  type: to_pbi_node
+  type: to_py_node
   style: dashed
-- src_id: n6
-  tgt_id: n8
-  type: to_pbi_node
 - src_id: n11
   tgt_id: n8
-  type: to_pbi_node
+  type: to_py_node
+- src_id: n10
+  tgt_id: n12
+  type: to_py_node
   style: dashed
 - src_id: n12
-  tgt_id: n8
-  type: to_pbi_node
-  style: dashed
+  tgt_id: n5
+  type: from_py_node
+- src_id: n5
+  tgt_id: n12
+  type: to_py_node
