@@ -49,29 +49,33 @@ with col2:
     selected_values = st.multiselect("Attribute values", unique_values)
 
 if st.button("Add nodes to filter", disabled=not selected_values):
-    new_filter = (selected_attr, list(selected_values))
-    if new_filter not in st.session_state['applied_filters']:
-        add_nodes_to_nx_filter(selected_attr, selected_values)
-        st.session_state['applied_filters'].append(new_filter)
+    filters = st.session_state['applied_filters']
+    if selected_attr not in filters:
+        filters[selected_attr] = set()
+    new_values = set(selected_values) - filters[selected_attr]
+    if new_values:
+        add_nodes_to_nx_filter(selected_attr, list(new_values))
+        filters[selected_attr].update(new_values)
         log_page_event(PAGE_NAME, "button_clicked", {
             "button_name": "add_nodes_to_filter",
-            "filter": {selected_attr: list(selected_values)},
+            "filter": {selected_attr: list(filters[selected_attr])},
         })
 
 # Show accumulated filters
-if st.session_state.get('applied_filters'):
+active_filters = {k: v for k, v in st.session_state.get('applied_filters', {}).items() if v}
+if active_filters:
     st.markdown("**Active filters:**")
-    filters = st.session_state['applied_filters']
-    for i, (attr, vals) in enumerate(filters):
-        suffix = " &nbsp;**OR**" if i < len(filters) - 1 else ""
-        st.markdown(f"- `{attr}` in `{vals}`{suffix}")
+    items = list(active_filters.items())
+    for i, (attr, vals) in enumerate(items):
+        suffix = " &nbsp;**OR**" if i < len(items) - 1 else ""
+        st.markdown(f"- `{attr}` in `{sorted(vals)}`{suffix}")
 else:
     st.info("No filters added yet. Select an attribute and values above, then click **Add nodes to filter**.")
 
 if st.button("Clear filters"):
     clear_nx_graph()
     register_network_as_nx(network)
-    st.session_state['applied_filters'] = []
+    st.session_state['applied_filters'] = {}
     st.session_state.pop('plot_html', None)
     st.session_state.pop('descendant_level', None)
     st.session_state.pop('ancestor_level', None)

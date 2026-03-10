@@ -55,7 +55,7 @@ def init_session_state():
         register_network_as_nx(network)
         st.session_state['nx_registered'] = True
     if 'applied_filters' not in st.session_state:
-        st.session_state['applied_filters'] = []
+        st.session_state['applied_filters'] = {}
     if 'session_id' not in st.session_state:
         st.session_state['session_id'] = str(uuid.uuid4())
     return None
