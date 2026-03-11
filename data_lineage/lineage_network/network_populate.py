@@ -50,7 +50,7 @@ def add_io_logs_to_network(df_io_logs):
             tgt = record['PYTHON_NODE_NAME']
             record_meta_dict = {key: record[key] for key in record.keys() if key in meta_attributes_for_nodes}
             register_node(src, 'file', meta_dict=record_meta_dict)
-            register_node(tgt, 'py_node', meta_dict=record_meta_dict)
+            register_node(tgt, 'py_node', meta_dict=record_meta_dict, target_node=True)
             register_edge(src, tgt, 'to_py_node')
             treated_io_types = treated_io_types.union(file_read_actions)
         if record['action'] in file_write_actions:
@@ -58,7 +58,7 @@ def add_io_logs_to_network(df_io_logs):
             tgt = record['target']
             record_meta_dict = {key: record[key] for key in record.keys() if key in meta_attributes_for_nodes}
             register_node(src, 'py_node', meta_dict=record_meta_dict)
-            register_node(tgt, 'file', meta_dict=record_meta_dict)
+            register_node(tgt, 'file', meta_dict=record_meta_dict, target_node=True)
             register_edge(src, tgt, 'from_py_node')
             treated_io_types = treated_io_types.union(file_write_actions)
         if record['action'] in db_read_actions:
@@ -70,7 +70,7 @@ def add_io_logs_to_network(df_io_logs):
             assert not tgts, f'found targets in {query} for {record["action"]}'
             # fill nodes and edges
             tgt = record['PYTHON_NODE_NAME']
-            register_node(tgt, 'py_node', meta_dict=record_meta_dict)
+            register_node(tgt, 'py_node', meta_dict=record_meta_dict, target_node=True)
             for src in srcs:
                 node_meta = record_meta_dict | ({'schema': src['schema']} if src.get('schema') else {})
                 register_node(src['combined_name'], 'db_object', meta_dict=node_meta)
@@ -96,7 +96,7 @@ def add_io_logs_to_network(df_io_logs):
                 assert not targets, 'found targets in data retrieval query'
                 # add nodes and edges
                 tgt = record['PYTHON_NODE_NAME']
-                register_node(tgt, 'py_node', meta_dict=record_meta_dict)
+                register_node(tgt, 'py_node', meta_dict=record_meta_dict, target_node=True)
                 for src in sources:
                     node_meta = record_meta_dict | ({'schema': src['schema']} if src.get('schema') else {})
                     register_node(src['combined_name'], 'db_object', meta_dict=node_meta)
@@ -109,7 +109,7 @@ def add_io_logs_to_network(df_io_logs):
                 register_node(src, 'py_node', meta_dict=record_meta_dict)
                 for tgt in targets:
                     node_meta = record_meta_dict | ({'schema': tgt['schema']} if tgt.get('schema') else {})
-                    register_node(tgt['combined_name'], 'db_object', meta_dict=node_meta)
+                    register_node(tgt['combined_name'], 'db_object', meta_dict=node_meta, target_node=True)
                     register_edge(src, tgt['combined_name'], 'from_py_node')
             if query_classification == 'object_modification':
                 if sources and targets:
@@ -118,14 +118,14 @@ def add_io_logs_to_network(df_io_logs):
                             src_meta = record_meta_dict | ({'schema': src['schema']} if src.get('schema') else {})
                             tgt_meta = record_meta_dict | ({'schema': tgt['schema']} if tgt.get('schema') else {})
                             register_node(src['combined_name'], 'db_object', meta_dict=src_meta)
-                            register_node(tgt['combined_name'], 'db_object', meta_dict=tgt_meta)
+                            register_node(tgt['combined_name'], 'db_object', meta_dict=tgt_meta, target_node=True)
                             register_edge(src['combined_name'], tgt['combined_name'], 'db_native')
                 if sources and not targets:
                     assert 1==2, 'detected object_modification query without targets'
                 if not sources and targets:
                     for tgt in targets:
                         node_meta = record_meta_dict | ({'schema': tgt['schema']} if tgt.get('schema') else {})
-                        register_node(tgt['combined_name'], 'db_object', meta_dict=node_meta)
+                        register_node(tgt['combined_name'], 'db_object', meta_dict=node_meta, target_node=True)
             treated_io_types = treated_io_types.union(db_cursor_actions)
     assert actions_in_io_logs.difference(treated_io_types) == set(), 'detected io action without node/edge mapping'
 
@@ -146,7 +146,7 @@ def add_pbip_sources_to_network(path_to_pbip_file, pbip_sources):
             src_meta_dict = src_meta_dict | {'schema': pbip_source['schema']}
 
         register_node(src, pbip_source['type'], meta_dict=src_meta_dict)
-        register_node(tgt, 'pbi', meta_dict={'source_type': 'PBI', 'pbi_name': pbi_name, 'module': pbi_name})
+        register_node(tgt, 'pbi', meta_dict={'source_type': 'PBI', 'pbi_name': pbi_name, 'module': pbi_name}, target_node=True)
         register_edge(src, tgt, 'to_pbi_node')
 
     return None

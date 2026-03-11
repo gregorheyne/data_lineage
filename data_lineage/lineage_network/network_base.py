@@ -66,15 +66,28 @@ def _add_new_node(node_name, node_type, meta_dict):
     _add_to_nodes_id_meta_map(node)
     return None
 
-def register_node(node_name, node_type, meta_dict=None):
+def register_node(node_name, node_type, meta_dict=None, target_node=False):
     node_name = _format_node_name(node_name)
     if _node_known(node_name):
         # if node is known check that registered type is the same
         node_id = nodes_name_id_map[node_name]
         assert nodes_id_meta_map[node_id]['type'] == node_type, f'found conflicting node types for node {node_name}'
+        if target_node:
+            if not nodes_id_meta_map[node_id].get('seen_as_target', False):
+                # update node: keep id, name, type; replace remaining attrs with meta_dict + seen_as_target=True
+                print(f'update node {node_id} ({node_name})')
+                new_attrs = {**(meta_dict or {}), 'seen_as_target': True}
+                nodes_id_meta_map[node_id] = {'name': node_name, 'type': node_type, **new_attrs}
+                # update the node in the nodes list
+                for node in nodes:
+                    if node['id'] == node_id:
+                        node.clear()
+                        node.update({'id': node_id, 'name': node_name, 'type': node_type, **new_attrs})
+                        break
     else:
         # if not, add it
-        _add_new_node(node_name, node_type, meta_dict)
+        augmented_meta = {**(meta_dict or {}), 'seen_as_target': target_node}
+        _add_new_node(node_name, node_type, augmented_meta)
     return None
 
 def _get_edge_id(src_id, tgt_id):
