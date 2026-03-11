@@ -9,6 +9,9 @@ def process_io_logs_df(
         str_required_in_caller_one_file=None,
         str_forbidden_in_caller_one_file=None):
 
+    # make module more explicit
+    df_io_logs['module'] = 'IO_LOGS_PY_' + df_io_logs['module']
+
     # group by module, user, cwd
     groupby_cols = ['module', 'user', 'cwd']
     df_io_logs['module_GROUP'] = df_io_logs.groupby(groupby_cols).transform('ngroup') + 1
