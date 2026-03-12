@@ -20,10 +20,12 @@ def add_graphviz_meta_to_io_network(network):
         # set layer
         assert node['source_type'] in ['io_logs_py', 'PBI', 'db_views_definitions', 'sql_script'], 'node with invalid node source_type'
         if node['source_type'] == 'io_logs_py':
-            if node['type'] == 'db_object':
-                node['layer'] = f"Schema ({node['schema']})"
-            elif 'io_context' in node:
+            if 'io_context' in node:
                 node['layer'] = (node['io_context'].split('io_ctx_id')[0]).lower()[:-1] + ' (' + node['module'] + ')'
+            # if node['type'] == 'db_object':
+            #     node['layer'] = f"Schema ({node['schema']})"
+            # elif 'io_context' in node:
+            #     node['layer'] = (node['io_context'].split('io_ctx_id')[0]).lower()[:-1] + ' (' + node['module'] + ')'
         elif node['source_type'] == 'PBI':
             node['layer'] = f"PBI ({node['pbi_name']})"
         elif node['source_type'] in ['db_views_definitions', 'sql_script']:
