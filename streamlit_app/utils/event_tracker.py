@@ -6,6 +6,7 @@ from pathlib import Path
 from streamlit_app.utils.db_connections import get_azure_db_connection, SCHEMA_NAME, TABLE_NAME
 
 ENVIRONMENT = os.environ.get("APP_ENVIRONMENT", "dev")
+SQL_PLACEHOLDER = "%s" if ENVIRONMENT == "prod" else "?"
 
 LOG_FILE = Path(__file__).parent.parent / "data" / "events.jsonl"
 
@@ -15,7 +16,7 @@ def ensure_event_table_exists():
     cursor = conn.cursor()
 
     schema_exists = cursor.execute(
-        "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?",
+        f"SELECT 1 FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = {SQL_PLACEHOLDER}",
         (SCHEMA_NAME,),
     ).fetchone()
     if not schema_exists:
@@ -23,7 +24,7 @@ def ensure_event_table_exists():
         conn.commit()
 
     table_exists = cursor.execute(
-        "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?",
+        f"SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = {SQL_PLACEHOLDER} AND TABLE_NAME = {SQL_PLACEHOLDER}",
         (SCHEMA_NAME, TABLE_NAME),
     ).fetchone()
     if not table_exists:
@@ -53,7 +54,7 @@ def upload_event(event: dict):
     cursor.execute(
         f"INSERT INTO [{SCHEMA_NAME}].[{TABLE_NAME}]"
         " (ENVIRONMENT, SESSION_ID, TIMESTAMP, USER_ID, PAGE_NAME, EVENT_TYPE, METADATA)"
-        " VALUES (?, ?, ?, ?, ?, ?, ?)",
+        f" VALUES ({', '.join([SQL_PLACEHOLDER] * 7)})",
         (
             event["environment"],
             event["session_id"],
