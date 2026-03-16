@@ -15,18 +15,20 @@ def ensure_event_table_exists():
     conn = get_azure_db_connection()
     cursor = conn.cursor()
 
-    schema_exists = cursor.execute(
+    cursor.execute(
         f"SELECT 1 FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = {SQL_PLACEHOLDER}",
         (SCHEMA_NAME,),
-    ).fetchone()
+    )
+    schema_exists = cursor.fetchone()
     if not schema_exists:
         cursor.execute(f"CREATE SCHEMA [{SCHEMA_NAME}]")
         conn.commit()
 
-    table_exists = cursor.execute(
+    cursor.execute(
         f"SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = {SQL_PLACEHOLDER} AND TABLE_NAME = {SQL_PLACEHOLDER}",
         (SCHEMA_NAME, TABLE_NAME),
-    ).fetchone()
+    )
+    table_exists = cursor.fetchone()
     if not table_exists:
         cursor.execute(f"""
             CREATE TABLE [{SCHEMA_NAME}].[{TABLE_NAME}] (
