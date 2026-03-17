@@ -3,12 +3,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))  # project root for data_lineage
 import yaml
 import streamlit as st
-from streamlit_app.utils.app_state import init_session_state, require_auth, log_page_event, set_page_style, show_page_spinner, hide_page_spinner
+from streamlit_app.utils.app_state import log_page_event, set_page_style, show_page_spinner, hide_page_spinner
 
 _spinner = show_page_spinner()
 
-require_auth()
-init_session_state()
 set_page_style()
 
 # load scope data

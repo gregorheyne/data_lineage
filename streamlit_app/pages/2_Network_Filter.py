@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_app.utils.app_state import load_network, init_session_state, require_auth, log_page_event, set_page_style, show_page_spinner, hide_page_spinner
+from streamlit_app.utils.app_state import load_network, log_page_event, set_page_style, show_page_spinner, hide_page_spinner
 from data_lineage.lineage_network.network_filter import (
     G,
     filtered_nodes,
@@ -18,9 +18,6 @@ from data_lineage.lineage_network.network_plot import (
 
 _spinner = show_page_spinner()
 
-
-require_auth()
-init_session_state()
 set_page_style()
 
 PAGE_NAME = "Filter Network"
