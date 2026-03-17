@@ -59,7 +59,7 @@ def hide_page_spinner(placeholder):
 def log_page_event(page_name: str, event_type: str, metadata: dict = None):
     log_event(
         st.session_state['session_id'],
-        st.session_state['username'],
+        st.session_state['user_id'],
         page_name,
         event_type,
         metadata,

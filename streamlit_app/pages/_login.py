@@ -16,7 +16,7 @@ if submitted:
         os_user = getpass.getuser()
         st.session_state['authenticated'] = True
         st.session_state['login_failed'] = False
-        st.session_state['username'] = os_user
+        st.session_state['user_id'] = os_user
         st.session_state['user_display_name'] = os_user
         st.rerun()
     else:
