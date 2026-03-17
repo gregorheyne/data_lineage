@@ -10,7 +10,7 @@ from streamlit_app.utils.app_state import init_session_state, show_user_sidebar
 st.set_page_config(page_title="Data Lineage Explorer", layout="wide")
 
 if st.session_state.get('login_failed'):
-    pg = st.navigation([st.Page("pages/_access_prohibited.py", title="Access Prohibited")])
+    pg = st.navigation([st.Page("pages/_not_authorized.py", title="Access Denied")])
 elif st.session_state.get('authenticated'):
     show_user_sidebar()
     init_session_state()
