@@ -40,7 +40,8 @@ st.markdown("""
 ### Pages
 
 - **Network Components** — Browse all network nodes and edges in sortable and filterable tables.
-- **Network Plot** — Filter the network by node attributes and render an interactive lineage plot.
+- **Network Filter** — Filter the network by node attributes and trigger render of an interactive lineage plot.
+- **Network Plot** — Displays the interactive lineage plot.
 
 ---
 
