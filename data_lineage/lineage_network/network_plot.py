@@ -143,7 +143,6 @@ def draw_lineage_plot(
 
     # set some layer and layer order in case layers or layer_order are not given
     if not layer_order:
-        print('set layer order')
         layer_order = ['default_io_layer']
         for node in nodes:
             if 'layer' not in node.keys():
