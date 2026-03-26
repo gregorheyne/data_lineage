@@ -6,7 +6,8 @@ from pathlib import Path
 from streamlit_app.utils.db_connections import get_azure_db_connection, SCHEMA_NAME, TABLE_NAME
 
 ENVIRONMENT = os.environ.get("APP_ENVIRONMENT", "dev")
-SQL_PLACEHOLDER = "%s" if ENVIRONMENT == "prod" else "?"
+APP_DB_CONN_DRIVER = os.environ.get("APP_DB_CONN_DRIVER", "pyodbc")
+SQL_PLACEHOLDER = "%s" if APP_DB_CONN_DRIVER == "pymssql" else "?"
 
 LOG_FILE = Path(__file__).parent.parent / "data" / "events.jsonl"
 

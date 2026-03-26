@@ -18,9 +18,9 @@ PROD_DB_CONFIG = {
 
 
 def get_azure_db_connection():
-    env = os.environ.get("APP_ENVIRONMENT", "dev")
+    APP_DB_CONN_DRIVER = os.environ.get("APP_DB_CONN_DRIVER", "pyodbc")
 
-    if env == "prod":
+    if APP_DB_CONN_DRIVER == "pymssql":
         import pymssql
         return pymssql.connect(
             server=PROD_DB_CONFIG["server"],
@@ -28,7 +28,7 @@ def get_azure_db_connection():
             password=os.environ["DB_PASSWORD"],
             database=PROD_DB_CONFIG["database"],
         )
-    else:
+    elif APP_DB_CONN_DRIVER == "pyodbc":
         import pyodbc
         connection_string = (
             f"DRIVER={{{DB_CONFIG['driver']}}};"

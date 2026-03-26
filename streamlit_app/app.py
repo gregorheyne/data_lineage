@@ -1,5 +1,5 @@
 # dev run with "streamlit run streamlit_app/app.py"
-# prod run with "APP_ENVIRONMENT=prod streamlit run streamlit_app/app.py"
+# prod run with "APP_ENVIRONMENT=prod APP_DB_CONN_DRIVER=pymssql streamlit run streamlit_app/app.py"
 
 import sys
 from pathlib import Path
